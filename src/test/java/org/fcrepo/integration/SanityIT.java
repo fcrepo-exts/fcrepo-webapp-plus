@@ -21,11 +21,13 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.message.AbstractHttpMessage;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -74,12 +76,33 @@ public class SanityIT {
 
     @Test
     public void doASanityCheck() throws IOException {
-        assertEquals(200, getStatus(new HttpGet(serverAddress + "rest/")));
+        final HttpGet get = new HttpGet(serverAddress + "rest/");
+        setAdminAuth(get);
+        assertEquals(200, getStatus(get));
+    }
+
+    @Test
+    public void doASanityCheckNoAuth() throws IOException {
+        final HttpGet get = new HttpGet(serverAddress + "rest/");
+        assertEquals(401, getStatus(get));
     }
 
     protected int getStatus(final HttpUriRequest method) throws IOException {
         logger.debug("Executing: " + method.getMethod() + " to " +
                              method.getURI());
         return client.execute(method).getStatusLine().getStatusCode();
+    }
+
+    private static void setAdminAuth(final AbstractHttpMessage method) {
+        setAuth(method, "admin1", "password3");
+    }
+
+    private static void setAuth(final AbstractHttpMessage method, final String username, final String password) {
+        final String creds = username + ":" + password;
+        // in test configuration we don't need real passwords
+        final String encCreds =
+                new String(Base64.encodeBase64(creds.getBytes()));
+        final String basic = "Basic " + encCreds;
+        method.setHeader("Authorization", basic);
     }
 }
