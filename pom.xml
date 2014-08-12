@@ -186,6 +186,11 @@
                   <value>${stomp.port}</value>
                 </systemProperty>
 
+                  <systemProperty>
+                      <name>integration-test</name>
+                      <value>true</value>
+                  </systemProperty>
+
                 <systemProperty>
                   <name>
                     com.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.default.objectStoreDir
@@ -218,7 +223,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
 
   </build>
