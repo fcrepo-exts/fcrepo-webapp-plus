@@ -111,21 +111,6 @@
 
     <plugins>
       <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <overlays>
-            <overlay>
-              <groupId>org.fcrepo</groupId>
-              <artifactId>fcrepo-webapp</artifactId>
-              <excludes>
-                <exclude>WEB-INF/lib/*.jar</exclude>
-              </excludes>
-            </overlay>
-          </overlays>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <configuration>
@@ -226,5 +211,77 @@
     </plugins>
 
   </build>
+
+  <profiles>
+      <profile>
+          <id>xacml</id>
+          <dependencies>
+              <dependency>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-module-auth-xacml</artifactId>
+                  <version>${project.parent.version}</version>
+              </dependency>
+          </dependencies>
+
+          <build>
+              <finalName>${project.name}-xacml</finalName>
+              <resources>
+                  <resource>
+                      <directory>${project.basedir}/src/xacml/resources</directory>
+                  </resource>
+              </resources>
+              <plugins>
+                  <plugin>
+                      <artifactId>maven-war-plugin</artifactId>
+                      <configuration>
+                          <overlays>
+                              <overlay>
+                                  <groupId>org.fcrepo</groupId>
+                                  <artifactId>fcrepo-webapp</artifactId>
+                                  <excludes>
+                                      <exclude>WEB-INF/lib/*.jar</exclude>
+                                  </excludes>
+                              </overlay>
+                          </overlays>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+      <profile>
+          <id>rbacl</id>
+          <dependencies>
+              <dependency>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-auth-roles-basic</artifactId>
+                  <version>${project.parent.version}</version>
+              </dependency>
+          </dependencies>
+          <build>
+              <finalName>${project.name}-rbacl</finalName>
+              <resources>
+                  <resource>
+                      <directory>${project.basedir}/src/rbacl/resources</directory>
+                  </resource>
+              </resources>
+              <plugins>
+                  <plugin>
+                      <artifactId>maven-war-plugin</artifactId>
+                      <configuration>
+                          <overlays>
+                              <overlay>
+                                  <groupId>org.fcrepo</groupId>
+                                  <artifactId>fcrepo-webapp</artifactId>
+                                  <excludes>
+                                      <exclude>WEB-INF/lib/*.jar</exclude>
+                                  </excludes>
+                              </overlay>
+                          </overlays>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+  </profiles>
 
 </project>
