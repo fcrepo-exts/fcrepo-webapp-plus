@@ -4,10 +4,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.0.0-beta-02-SNAPSHOT</version>
+    <version>4.0.0-beta-04-SNAPSHOT</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.0.0-beta-02-SNAPSHOT</version>
+  <version>4.0.0-beta-04-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -17,6 +17,7 @@
     <project_name>fcrepo-webapp-plus</project_name>
     <!-- integration test properties -->
     <test.context.path>/</test.context.path>
+    <!--<test.src.dir>${project.basedir}/src/main/</test.src.dir>-->
   </properties>
 
   <repositories>
@@ -128,12 +129,16 @@
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
-          <!--<loginServices>-->
-            <!--<loginService implementation="org.eclipse.jetty.security.HashLoginService">-->
-              <!--<name>fcrepo</name>-->
-              <!--<config>${jetty.users.file}</config>-->
-            <!--</loginService>-->
-          <!--</loginServices>-->
+          <!-- webAppSourceDirectory must point to the "webappDirectory" configured for the maven-war-plugin so
+               that the overlaid version is used -->
+          <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
+            <classesDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</classesDirectory>
+          <loginServices>
+            <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+              <name>fcrepo</name>
+              <config>${project.basedir}/src/test/users.txt</config>
+            </loginService>
+          </loginServices>
           <scanIntervalSeconds>2</scanIntervalSeconds>
           <stopKey>STOP</stopKey>
           <webApp>
@@ -215,6 +220,9 @@
   <profiles>
       <profile>
           <id>xacml</id>
+          <properties>
+              <test.src.dir>${project.basedir}/src/xacml</test.src.dir>
+          </properties>
           <dependencies>
               <dependency>
                   <groupId>org.fcrepo</groupId>
@@ -224,12 +232,7 @@
           </dependencies>
 
           <build>
-              <finalName>${project.name}-xacml</finalName>
-              <resources>
-                  <resource>
-                      <directory>${project.basedir}/src/xacml/resources</directory>
-                  </resource>
-              </resources>
+              <finalName>${project.name}-xacml-${project.version}</finalName>
               <plugins>
                   <plugin>
                       <artifactId>maven-war-plugin</artifactId>
@@ -238,9 +241,6 @@
                               <overlay>
                                   <groupId>org.fcrepo</groupId>
                                   <artifactId>fcrepo-webapp</artifactId>
-                                  <excludes>
-                                      <exclude>WEB-INF/lib/*.jar</exclude>
-                                  </excludes>
                               </overlay>
                           </overlays>
                       </configuration>
@@ -248,8 +248,15 @@
               </plugins>
           </build>
       </profile>
+
       <profile>
           <id>rbacl</id>
+          <properties>
+              <test.src.dir>${project.basedir}/src/rbacl</test.src.dir>
+          </properties>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
           <dependencies>
               <dependency>
                   <groupId>org.fcrepo</groupId>
@@ -258,16 +265,12 @@
               </dependency>
           </dependencies>
           <build>
-              <finalName>${project.name}-rbacl</finalName>
-              <resources>
-                  <resource>
-                      <directory>${project.basedir}/src/rbacl/resources</directory>
-                  </resource>
-              </resources>
+              <finalName>${project.name}-rbacl-${project.version}</finalName>
               <plugins>
                   <plugin>
                       <artifactId>maven-war-plugin</artifactId>
                       <configuration>
+                          <warSourceDirectory>${project.basedir}/src/rbacl/webapp</warSourceDirectory>
                           <overlays>
                               <overlay>
                                   <groupId>org.fcrepo</groupId>
@@ -282,6 +285,7 @@
               </plugins>
           </build>
       </profile>
+
   </profiles>
 
 </project>
