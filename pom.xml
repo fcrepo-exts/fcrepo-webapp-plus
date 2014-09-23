@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.fcrepo</groupId>
@@ -17,7 +18,6 @@
     <project_name>fcrepo-webapp-plus</project_name>
     <!-- integration test properties -->
     <test.context.path>/</test.context.path>
-    <!--<test.src.dir>${project.basedir}/src/main/</test.src.dir>-->
   </properties>
 
   <repositories>
@@ -132,7 +132,7 @@
           <!-- webAppSourceDirectory must point to the "webappDirectory" configured for the maven-war-plugin so
                that the overlaid version is used -->
           <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
-            <classesDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</classesDirectory>
+          <classesDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</classesDirectory>
           <loginServices>
             <loginService implementation="org.eclipse.jetty.security.HashLoginService">
               <name>fcrepo</name>
@@ -176,15 +176,14 @@
                   <value>${stomp.port}</value>
                 </systemProperty>
 
-                  <systemProperty>
-                      <name>integration-test</name>
-                      <value>true</value>
-                  </systemProperty>
+                <systemProperty>
+                  <name>integration-test</name>
+                  <value>true</value>
+                </systemProperty>
 
                 <systemProperty>
                   <name>
-                    com.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.default.objectStoreDir
-                  </name>
+                    com.arjuna.ats.arjuna.common.ObjectStoreEnvironmentBean.default.objectStoreDir </name>
                   <value>${project.build.directory}/object-store-default</value>
                 </systemProperty>
 
@@ -197,6 +196,17 @@
                   <name>fcrepo.activemq.dir</name>
                   <value>${project.build.directory}/active-mq</value>
                 </systemProperty>
+
+                <systemProperty>
+                  <name>fcrepo.xacml.initial.policies.dir</name>
+                  <value>${project.build.directory}/policies</value>
+                </systemProperty>
+
+                <systemProperty>
+                  <name>fcrepo.xacml.initial.root.policy.file</name>
+                  <value>${project.build.directory}/policies/GlobalRolesPolicySet.xml</value>
+                </systemProperty>
+
               </systemProperties>
 
             </configuration>
@@ -218,73 +228,103 @@
   </build>
 
   <profiles>
-      <profile>
-          <id>xacml</id>
-          <properties>
-              <test.src.dir>${project.basedir}/src/xacml</test.src.dir>
-          </properties>
-          <dependencies>
-              <dependency>
-                  <groupId>org.fcrepo</groupId>
-                  <artifactId>fcrepo-module-auth-xacml</artifactId>
-                  <version>${project.parent.version}</version>
-              </dependency>
-          </dependencies>
+    <profile>
+      <id>xacml</id>
+      <properties>
+        <profile.src.dir>${project.basedir}/src/xacml</profile.src.dir>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-module-auth-xacml</artifactId>
+          <version>${project.parent.version}</version>
+        </dependency>
+      </dependencies>
 
-          <build>
-              <finalName>${project.name}-xacml-${project.version}</finalName>
-              <plugins>
-                  <plugin>
-                      <artifactId>maven-war-plugin</artifactId>
-                      <configuration>
-                          <overlays>
-                              <overlay>
-                                  <groupId>org.fcrepo</groupId>
-                                  <artifactId>fcrepo-webapp</artifactId>
-                              </overlay>
-                          </overlays>
-                      </configuration>
-                  </plugin>
-              </plugins>
-          </build>
-      </profile>
-
-      <profile>
-          <id>rbacl</id>
-          <properties>
-              <test.src.dir>${project.basedir}/src/rbacl</test.src.dir>
-          </properties>
-          <activation>
-              <activeByDefault>true</activeByDefault>
-          </activation>
-          <dependencies>
-              <dependency>
+      <build>
+        <finalName>${project.name}-xacml-${project.version}</finalName>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
+              <overlays>
+                <overlay>
                   <groupId>org.fcrepo</groupId>
-                  <artifactId>fcrepo-auth-roles-basic</artifactId>
-                  <version>${project.parent.version}</version>
-              </dependency>
-          </dependencies>
-          <build>
-              <finalName>${project.name}-rbacl-${project.version}</finalName>
-              <plugins>
-                  <plugin>
-                      <artifactId>maven-war-plugin</artifactId>
-                      <configuration>
-                          <warSourceDirectory>${project.basedir}/src/rbacl/webapp</warSourceDirectory>
-                          <overlays>
-                              <overlay>
-                                  <groupId>org.fcrepo</groupId>
-                                  <artifactId>fcrepo-webapp</artifactId>
-                                  <excludes>
-                                      <exclude>WEB-INF/lib/*.jar</exclude>
-                                  </excludes>
-                              </overlay>
-                          </overlays>
-                      </configuration>
-                  </plugin>
-              </plugins>
-          </build>
-      </profile>
+                  <artifactId>fcrepo-webapp</artifactId>
+                </overlay>
+              </overlays>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.8</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.fcrepo</groupId>
+                      <artifactId>fcrepo-module-auth-xacml</artifactId>
+                      <version>${project.parent.version}</version>
+                      <type>jar</type>
+                      <overWrite>false</overWrite>
+                    </artifactItem>
+                  </artifactItems>
+                  <includes>policies/*</includes>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <overWriteReleases>false</overWriteReleases>
+                  <overWriteSnapshots>true</overWriteSnapshots>
+                </configuration>
+              </execution>
+            </executions>
+
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>rbacl</id>
+      <properties>
+        <profile.src.dir>${project.basedir}/src/rbacl</profile.src.dir>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-auth-roles-basic</artifactId>
+          <version>${project.parent.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-rbacl-${project.version}</finalName>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
+              <overlays>
+                <overlay>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-webapp</artifactId>
+                  <excludes>
+                    <exclude>WEB-INF/lib/*.jar</exclude>
+                  </excludes>
+                </overlay>
+              </overlays>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
   </profiles>
 
