@@ -1,0 +1,3 @@
+user1: password1,fedoraUser
+user2: password2,fedoraUser
+admin1: password3,fedoraAdmin
