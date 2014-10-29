@@ -328,9 +328,6 @@
                 <overlay>
                   <groupId>org.fcrepo</groupId>
                   <artifactId>fcrepo-webapp</artifactId>
-                  <excludes>
-                    <exclude>WEB-INF/lib/*.jar</exclude>
-                  </excludes>
                 </overlay>
               </overlays>
             </configuration>
