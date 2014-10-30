@@ -24,8 +24,8 @@
     <bean class="org.modeshape.jcr.ModeShapeEngine" init-method="start"/>
   
   <bean class="org.fcrepo.auth.xacml.XACMLWorkspaceInitializer" init-method="initTest">
-    <constructor-arg value="target/policies"/>
-    <constructor-arg value="target/policies/GlobalRolesPolicySet.xml"/>
+    <constructor-arg value="WEB-INF/classes/policies"/>
+    <constructor-arg value="WEB-INF/classes/policies/GlobalRolesPolicySet.xml"/>
   </bean>
 
   <bean id="connectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager"/>
