@@ -256,6 +256,11 @@
 
       <build>
         <finalName>${project.name}-xacml-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${profile.src.dir}/resources</directory>
+          </resource>
+        </resources>
         <plugins>
           <plugin>
             <artifactId>maven-war-plugin</artifactId>
