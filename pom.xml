@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.0.0-beta-04</version>
+    <version>4.0.0-beta-05-SNAPSHOT</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.0.0-beta-04</version>
+  <version>4.0.0-beta-05-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -37,20 +37,20 @@
     <developerConnection>scm:git:git@github.com:fcrepo4-labs/${project_name}.git
     </developerConnection>
     <url>https://github.com/fcrepo4-labs/${project_name}</url>
-    <tag>fcrepo-webapp-plus-4.0.0-beta-04</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.0.0-beta-04</version>
+      <version>4.0.0-beta-05-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.0.0-beta-04</version>
+      <version>4.0.0-beta-05-SNAPSHOT</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
@@ -73,14 +73,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>4.0.0-beta-04</version>
+      <version>4.0.0-beta-05-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>4.0.0-beta-04</version>
+      <version>4.0.0-beta-05-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -323,7 +323,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>4.0.0-beta-04</version>
+          <version>4.0.0-beta-05-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <build>
