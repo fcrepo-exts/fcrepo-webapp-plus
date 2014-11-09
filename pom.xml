@@ -1,14 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.0.0-beta-04-SNAPSHOT</version>
+    <version>4.0.0-beta-04</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.0.0-beta-04-SNAPSHOT</version>
+  <version>4.0.0-beta-04</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -39,20 +37,20 @@
     <developerConnection>scm:git:git@github.com:fcrepo4-labs/${project_name}.git
     </developerConnection>
     <url>https://github.com/fcrepo4-labs/${project_name}</url>
-    <tag>HEAD</tag>
+    <tag>fcrepo-webapp-plus-4.0.0-beta-04</tag>
   </scm>
 
   <dependencies>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>${project.parent.version}</version>
+      <version>4.0.0-beta-04</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>${project.parent.version}</version>
+      <version>4.0.0-beta-04</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
@@ -75,14 +73,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>${project.parent.version}</version>
+      <version>4.0.0-beta-04</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>${project.parent.version}</version>
+      <version>4.0.0-beta-04</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -325,7 +323,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>${project.parent.version}</version>
+          <version>4.0.0-beta-04</version>
         </dependency>
       </dependencies>
       <build>
