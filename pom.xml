@@ -15,7 +15,7 @@
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
     <!-- integration test properties -->
-    <test.context.path>/</test.context.path>
+    <fcrepo.test.context.path>/</fcrepo.test.context.path>
   </properties>
 
   <repositories>
@@ -127,11 +127,11 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <configuration>
           <portNames>
-            <portName>test.port</portName>
+            <portName>fcrepo.test.port</portName>
             <!-- reserves the stop port for jetty-maven-plugin -->
             <portName>jetty.port.stop</portName>
-            <portName>jms.port</portName>
-            <portName>stomp.port</portName>
+            <portName>fcrepo.jms.port</portName>
+            <portName>fcrepo.stomp.port</portName>
           </portNames>
         </configuration>
       </plugin>
@@ -153,7 +153,7 @@
           <scanIntervalSeconds>2</scanIntervalSeconds>
           <stopKey>STOP</stopKey>
           <webApp>
-            <contextPath>${test.context.path}</contextPath>
+            <contextPath>${fcrepo.test.context.path}</contextPath>
             <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
           </webApp>
 
@@ -169,7 +169,7 @@
             <configuration>
               <connectors>
                 <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                  <port>${test.port}</port>
+                  <port>${fcrepo.test.port}</port>
                   <maxIdleTime>60000</maxIdleTime>
                 </connector>
               </connectors>
@@ -178,13 +178,13 @@
 
               <systemProperties>
                 <systemProperty>
-                  <name>jms.port</name>
-                  <value>${jms.port}</value>
+                  <name>fcrepo.jms.port</name>
+                  <value>${fcrepo.jms.port}</value>
                 </systemProperty>
 
                 <systemProperty>
-                  <name>stomp.port</name>
-                  <value>${stomp.port}</value>
+                  <name>fcrepo.stomp.port</name>
+                  <value>${fcrepo.stomp.port}</value>
                 </systemProperty>
 
                 <systemProperty>
