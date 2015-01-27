@@ -42,13 +42,13 @@ public class SanityIT {
      * The server port of the application, set as system property by
      * maven-failsafe-plugin.
      */
-    private static final String SERVER_PORT = System.getProperty("test.port");
+    private static final String SERVER_PORT = System.getProperty("fcrepo.test.port");
 
     /**
      * The context path of the application (including the leading "/"), set as
      * system property by maven-failsafe-plugin.
      */
-    private static final String CONTEXT_PATH = System.getProperty("test.context.path");
+    private static final String CONTEXT_PATH = System.getProperty("fcrepo.test.context.path");
 
     protected Logger logger;
 
