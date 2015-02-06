@@ -127,11 +127,11 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <configuration>
           <portNames>
-            <portName>fcrepo.test.port</portName>
+            <portName>fcrepo.dynamic.test.port</portName>
             <!-- reserves the stop port for jetty-maven-plugin -->
-            <portName>jetty.port.stop</portName>
-            <portName>fcrepo.jms.port</portName>
-            <portName>fcrepo.stomp.port</portName>
+            <portName>jetty.dynamic.stop.port</portName>
+            <portName>fcrepo.dynamic.jms.port</portName>
+            <portName>fcrepo.dynamic.stomp.port</portName>
           </portNames>
         </configuration>
       </plugin>
@@ -169,22 +169,22 @@
             <configuration>
               <connectors>
                 <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                  <port>${fcrepo.test.port}</port>
+                  <port>${fcrepo.dynamic.test.port}</port>
                   <maxIdleTime>60000</maxIdleTime>
                 </connector>
               </connectors>
               <daemon>true</daemon>
-              <stopPort>${jetty.port.stop}</stopPort>
+              <stopPort>${jetty.dynamic.stop.port}</stopPort>
 
               <systemProperties>
                 <systemProperty>
-                  <name>fcrepo.jms.port</name>
-                  <value>${fcrepo.jms.port}</value>
+                  <name>fcrepo.dynamic.jms.port</name>
+                  <value>${fcrepo.dynamic.jms.port}</value>
                 </systemProperty>
 
                 <systemProperty>
-                  <name>fcrepo.stomp.port</name>
-                  <value>${fcrepo.stomp.port}</value>
+                  <name>fcrepo.dynamic.stomp.port</name>
+                  <value>${fcrepo.dynamic.stomp.port}</value>
                 </systemProperty>
 
                 <systemProperty>
@@ -229,7 +229,7 @@
               <goal>stop</goal>
             </goals>
             <configuration>
-              <stopPort>${jetty.port.stop}</stopPort>
+              <stopPort>${jetty.dynamic.stop.port}</stopPort>
             </configuration>
           </execution>
         </executions>
