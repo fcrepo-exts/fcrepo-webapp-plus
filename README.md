@@ -7,18 +7,20 @@ integration test exists to perform a basic deployment test only and may be usefu
 identifying syntax errors in configuration file updates or third party library version
 incompatibilities.
 
+# Authentication Packages
+
 Basic Authentication is configured for both profiles at this time.  To choose a different
 method, update the web.xml deployment descriptor for the webapp in question, being aware
 that this may break the single integration test.
 
-# Role-Base Access Control Lists
+## Role-Base Access Control Lists
 
 The default maven build profile, these configuration files are found in src/rbacl.
 ```
 mvn install
 ```
 
-# XACML-based Access Control
+## XACML-based Access Control
 An alternative maven build profile, these configuration files are found in src/xacml.
 
 Default policy sets and root policy are extracted into target/policies for the integration
@@ -27,4 +29,10 @@ configuration to point to your own policy directories.
 
 ```
 mvn install -P xacml
+```
+
+# Audit Capability Package
+This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-labs/fcrepo-audit) module that provides internal auditing capability.
+```
+mvn install -P audit -DskipTests=true
 ```
