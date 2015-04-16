@@ -345,6 +345,33 @@
       </build>
     </profile>
 
+    <profile>
+      <id>audit</id>
+      <properties>
+        <profile.src.dir>${project.basedir}/src/audit</profile.src.dir>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-audit</artifactId>
+          <version>4.1.2-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-audit-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${profile.src.dir}/resources</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
 </project>
