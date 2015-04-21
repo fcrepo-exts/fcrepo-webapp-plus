@@ -33,6 +33,26 @@ mvn install -P xacml
 
 # Audit Capability Package
 This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-labs/fcrepo-audit) module that provides internal auditing capability.
+
 ```
 mvn install -P audit -DskipTests=true
 ```
+
+
+
+## Audit capability with Authentication
+Audit capability can be packaged with either of the authentication options by using the ```audit``` profile in conjunction with ```rbacl``` or ```xacml``` profiles.
+
+#### Audit capability with RBACL
+
+```
+mvn install -P audit,rbacl
+```
+
+
+#### Audit capability with XACML
+
+```
+mvn install -P audit,xacml
+```
+
