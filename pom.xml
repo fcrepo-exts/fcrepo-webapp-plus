@@ -14,6 +14,9 @@
 
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
+    <audit.build.name></audit.build.name>
+    <audit.rbacl.context>${project.basedir}/src/audit/dummy-resources</audit.rbacl.context>
+    <audit.rbacl.excludes></audit.rbacl.excludes>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
   </properties>
@@ -239,6 +242,33 @@
   </build>
 
   <profiles>
+
+
+    <profile>
+      <id>audit</id>
+      <properties>
+        <audit.src.dir>${project.basedir}/src/audit</audit.src.dir>
+        <audit.build.name>-audit</audit.build.name>
+        <audit.rbacl.context>${audit.src.dir}/rbacl-resources</audit.rbacl.context>
+        <audit.rbacl.excludes>**/auth-master.xml</audit.rbacl.excludes>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-audit</artifactId>
+          <version>4.1.2-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-audit-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${audit.src.dir}/resources</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+
     <profile>
       <id>xacml</id>
       <properties>
@@ -253,7 +283,7 @@
       </dependencies>
 
       <build>
-        <finalName>${project.name}-xacml-${project.version}</finalName>
+        <finalName>${project.name}-xacml${audit.build.name}-${project.version}</finalName>
         <resources>
           <resource>
             <directory>${profile.src.dir}/resources</directory>
@@ -327,12 +357,18 @@
         </dependency>
       </dependencies>
       <build>
-        <finalName>${project.name}-rbacl-${project.version}</finalName>
+        <finalName>${project.name}-rbacl${audit.build.name}-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${audit.rbacl.context}</directory>
+          </resource>
+        </resources>
         <plugins>
           <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
               <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
+              <warSourceExcludes>${audit.rbacl.excludes}</warSourceExcludes>
               <overlays>
                 <overlay>
                   <groupId>org.fcrepo</groupId>
