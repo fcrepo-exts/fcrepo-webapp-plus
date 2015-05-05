@@ -50,10 +50,18 @@ public class SanityIT {
     private static final String CONTEXT_PATH = System.getProperty("fcrepo.test.context.path");
 
     protected Logger logger;
+    private static int noAuthExpectedResponse;
 
     @Before
     public void setLogger() {
         logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.debug("auth.enabled: {}", System.getProperty("auth.enabled"));
+        if ("true".equals(System.getProperty("auth.enabled"))) {
+            noAuthExpectedResponse = 401;
+        } else {
+            noAuthExpectedResponse = 200;
+        }
     }
 
     protected static final String HOSTNAME = "localhost";
@@ -83,7 +91,7 @@ public class SanityIT {
     @Test
     public void doASanityCheckNoAuth() throws IOException {
         final HttpGet get = new HttpGet(serverAddress + "rest/");
-        assertEquals(401, getStatus(get));
+        assertEquals(noAuthExpectedResponse, getStatus(get));
     }
 
     protected int getStatus(final HttpUriRequest method) throws IOException {

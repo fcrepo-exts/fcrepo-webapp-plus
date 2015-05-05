@@ -220,6 +220,10 @@
                   <name>fcrepo.xacml.initial.root.policy.file</name>
                   <value>${project.build.directory}/policies/GlobalRolesPolicySet.xml</value>
                 </systemProperty>
+                <systemProperty>
+                  <name>auth.enabled</name>
+                  <value>${auth.enabled:false}</value>
+                </systemProperty>
 
               </systemProperties>
 
@@ -234,6 +238,20 @@
             <configuration>
               <stopPort>${jetty.dynamic.stop.port}</stopPort>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <argLine>-XX:MaxPermSize=128m ${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -273,6 +291,7 @@
       <id>xacml</id>
       <properties>
         <profile.src.dir>${project.basedir}/src/xacml</profile.src.dir>
+        <auth.enabled>true</auth.enabled>
       </properties>
       <dependencies>
         <dependency>
@@ -345,6 +364,7 @@
       <id>rbacl</id>
       <properties>
         <profile.src.dir>${project.basedir}/src/rbacl</profile.src.dir>
+        <auth.enabled>true</auth.enabled>
       </properties>
       <activation>
         <activeByDefault>true</activeByDefault>

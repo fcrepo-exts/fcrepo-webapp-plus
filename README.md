@@ -35,7 +35,7 @@ mvn install -P xacml
 This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-labs/fcrepo-audit) module that provides internal auditing capability.
 
 ```
-mvn install -P audit -DskipTests=true
+mvn install -P audit
 ```
 
 
