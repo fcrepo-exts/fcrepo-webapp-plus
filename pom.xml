@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.1.2-SNAPSHOT</version>
+    <version>4.2.0</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.1.2-SNAPSHOT</version>
+  <version>4.2.0</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -14,9 +14,9 @@
 
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
-    <audit.build.name></audit.build.name>
+    <audit.build.name />
     <audit.rbacl.context>${project.basedir}/src/audit/dummy-resources</audit.rbacl.context>
-    <audit.rbacl.excludes></audit.rbacl.excludes>
+    <audit.rbacl.excludes />
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
   </properties>
@@ -40,20 +40,20 @@
     <developerConnection>scm:git:git@github.com:fcrepo4-labs/${project_name}.git
     </developerConnection>
     <url>https://github.com/fcrepo4-labs/${project_name}</url>
-    <tag>HEAD</tag>
+    <tag>fcrepo-webapp-plus-4.2.0</tag>
   </scm>
 
   <dependencies>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.1.2-SNAPSHOT</version>
+      <version>4.2.0</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.1.2-SNAPSHOT</version>
+      <version>4.2.0</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
@@ -76,14 +76,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>4.1.2-SNAPSHOT</version>
+      <version>4.2.0</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>4.1.2-SNAPSHOT</version>
+      <version>4.2.0</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -373,7 +373,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>4.1.2-SNAPSHOT</version>
+          <version>4.2.0</version>
         </dependency>
       </dependencies>
       <build>
