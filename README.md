@@ -1,6 +1,8 @@
 fcrepo-webapp-plus
 ==================
 
+[![Build Status](https://travis-ci.org/fcrepo4-labs/fcrepo-webapp-plus.png?branch=master)](https://travis-ci.org/fcrepo4-labs/fcrepo-webapps-plus)
+
 Fcrepo4 webapp plus optional fcrepo dependencies.  This project builds custom-configured
 fcrepo4 webapp war files that include extra dependencies and configuration options.  An
 integration test exists to perform a basic deployment test only and may be useful just for
