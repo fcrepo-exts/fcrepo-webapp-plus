@@ -47,13 +47,13 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.2.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.2.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
@@ -76,14 +76,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>4.2.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>4.2.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -278,7 +278,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-audit</artifactId>
-          <version>4.1.2-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
       <build>
@@ -301,7 +301,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-xacml</artifactId>
-          <version>${project.parent.version}</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
 
@@ -346,7 +346,7 @@
                     <artifactItem>
                       <groupId>org.fcrepo</groupId>
                       <artifactId>fcrepo-module-auth-xacml</artifactId>
-                      <version>${project.parent.version}</version>
+                      <version>${project.version}</version>
                       <type>jar</type>
                       <overWrite>false</overWrite>
                     </artifactItem>
@@ -377,7 +377,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>4.2.1-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
       <build>
