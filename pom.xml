@@ -140,7 +140,7 @@
       </plugin>
 
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
           <!-- webAppSourceDirectory must point to the "webappDirectory" configured for the maven-war-plugin so
@@ -170,16 +170,15 @@
               <goal>start</goal>
             </goals>
             <configuration>
-              <connectors>
-                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                  <port>${fcrepo.dynamic.test.port}</port>
-                  <maxIdleTime>60000</maxIdleTime>
-                </connector>
-              </connectors>
-              <daemon>true</daemon>
+              <jettyXml>src/test/resources/jetty-test.xml</jettyXml>
               <stopPort>${jetty.dynamic.stop.port}</stopPort>
 
               <systemProperties>
+                <systemProperty>
+                  <name>fcrepo.dynamic.test.port</name>
+                  <value>${fcrepo.dynamic.test.port}</value>
+                </systemProperty>
+
                 <systemProperty>
                   <name>fcrepo.dynamic.jms.port</name>
                   <value>${fcrepo.dynamic.jms.port}</value>
