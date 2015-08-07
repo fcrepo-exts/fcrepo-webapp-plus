@@ -8,14 +8,13 @@
 
   <context:property-placeholder location="classpath:application.properties"/>
 
-  <bean class="org.fcrepo.http.commons.session.SessionFactory"/>
+  <!-- Master context for fcrepo4. -->
 
-  <!-- Mints PIDs-->
-  <bean class="org.fcrepo.mint.UUIDPidMinter"/>
-
-  <!-- Identifier translation chain -->
-  <util:list id="translationChain" value-type="org.fcrepo.kernel.api.identifiers.InternalIdentifierConverter">
-    <bean class="org.fcrepo.kernel.modeshape.identifiers.NamespaceConverter"/>
-  </util:list>
+  <import resource="${fcrepo.spring.repo.configuration:classpath:/spring/auth-repo.xml}"/>
+  <import resource="${fcrepo.spring.rest.configuration:classpath:/spring/rest.xml}"/>
+  <import resource="${fcrepo.spring.minter.configuration:classpath:/spring/minter.xml}"/>
+  <import resource="${fcrepo.spring.eventing.configuration:classpath:/spring/eventing.xml}"/>
+  <import resource="${fcrepo.spring.jms.configuration:classpath:/spring/jms.xml}"/>
+  <import resource="${fcrepo.spring.transactions.configuration:classpath:/spring/transactions.xml}"/>
 
 </beans>
