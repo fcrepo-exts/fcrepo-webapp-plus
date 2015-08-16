@@ -2,7 +2,7 @@ fcrepo-webapp-plus
 ==================
 
 
-[![Build Status](https://travis-ci.org/fcrepo4-labs/fcrepo-webapp-plus.png?branch=master)](https://travis-ci.org/fcrepo4-labs/fcrepo-webapp-plus)
+[![Build Status](https://travis-ci.org/fcrepo4-exts/fcrepo-webapp-plus.png?branch=master)](https://travis-ci.org/fcrepo4-exts/fcrepo-webapp-plus)
 
 Fcrepo4 webapp plus optional fcrepo dependencies.  This project builds a custom-configured
 fcrepo4 webapp war file that includes extra dependencies and configuration options.  An
@@ -35,7 +35,7 @@ mvn install -P xacml
 ```
 
 # Audit Capability Package
-This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-labs/fcrepo-audit) module that provides internal auditing capability.
+This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) module that provides internal auditing capability.
 
 ```
 mvn install -P audit
