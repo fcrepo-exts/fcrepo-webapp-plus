@@ -15,14 +15,21 @@
  */
 package org.fcrepo.integration;
 
+import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
@@ -58,9 +65,9 @@ public class SanityIT {
 
         logger.debug("auth.enabled: {}", System.getProperty("auth.enabled"));
         if ("true".equals(System.getProperty("auth.enabled"))) {
-            noAuthExpectedResponse = 401;
+            noAuthExpectedResponse = UNAUTHORIZED.getStatusCode();
         } else {
-            noAuthExpectedResponse = 200;
+            noAuthExpectedResponse = OK.getStatusCode();
         }
     }
 
@@ -85,13 +92,29 @@ public class SanityIT {
     public void doASanityCheck() throws IOException {
         final HttpGet get = new HttpGet(serverAddress + "rest/");
         setAdminAuth(get);
-        assertEquals(200, getStatus(get));
+        assertEquals(OK.getStatusCode(), getStatus(get));
     }
 
     @Test
     public void doASanityCheckNoAuth() throws IOException {
         final HttpGet get = new HttpGet(serverAddress + "rest/");
         assertEquals(noAuthExpectedResponse, getStatus(get));
+    }
+
+    @Test
+    public void doSanityTranform() throws IOException {
+        final HttpPost post = new HttpPost(serverAddress + "rest/");
+        setAdminAuth(post);
+        final HttpResponse responsePost = client.execute(post);
+        assertEquals(CREATED.getStatusCode(), responsePost.getStatusLine().getStatusCode());
+
+        final Header locationHeader = responsePost.getFirstHeader("Location");
+        assertNotNull("Location header was null!", locationHeader);
+
+        final String location = locationHeader.getValue();
+        final HttpGet get = new HttpGet(location + "/fcr:transform/default");
+        setAdminAuth(get);
+        assertEquals(OK.getStatusCode(), getStatus(get));
     }
 
     protected int getStatus(final HttpUriRequest method) throws IOException {
