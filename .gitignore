@@ -3,4 +3,7 @@ pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.next
 release.properties
+ActiveMQ/
+fcrepo4-data/
+overlays/
 *~
