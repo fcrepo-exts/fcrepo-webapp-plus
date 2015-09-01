@@ -15,8 +15,8 @@
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
     <audit.build.name />
-    <audit.rbacl.context>${project.basedir}/src/audit/dummy-resources</audit.rbacl.context>
-    <audit.rbacl.excludes />
+    <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
+    <audit.auth.excludes />
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
   </properties>
@@ -270,8 +270,8 @@
       <properties>
         <audit.src.dir>${project.basedir}/src/audit</audit.src.dir>
         <audit.build.name>-audit</audit.build.name>
-        <audit.rbacl.context>${audit.src.dir}/rbacl-resources</audit.rbacl.context>
-        <audit.rbacl.excludes>**/auth-master.xml</audit.rbacl.excludes>
+        <audit.auth.context>${audit.src.dir}/auth-resources</audit.auth.context>
+        <audit.auth.excludes>**/auth-master.xml</audit.auth.excludes>
       </properties>
       <dependencies>
         <dependency>
@@ -383,7 +383,7 @@
         <finalName>${project.name}-rbacl${audit.build.name}-${project.version}</finalName>
         <resources>
           <resource>
-            <directory>${audit.rbacl.context}</directory>
+            <directory>${audit.auth.context}</directory>
           </resource>
         </resources>
         <plugins>
@@ -391,7 +391,45 @@
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
               <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
-              <warSourceExcludes>${audit.rbacl.excludes}</warSourceExcludes>
+              <warSourceExcludes>${audit.auth.excludes}</warSourceExcludes>
+              <overlays>
+                <overlay>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-webapp</artifactId>
+                </overlay>
+              </overlays>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>webac</id>
+      <properties>
+        <profile.src.dir>${project.basedir}/src/webac</profile.src.dir>
+        <auth.enabled>true</auth.enabled>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-module-auth-webac</artifactId>
+          <version>4.3.1-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-webac${audit.build.name}-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${audit.auth.context}</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
+              <warSourceExcludes>${audit.auth.excludes}</warSourceExcludes>
               <overlays>
                 <overlay>
                   <groupId>org.fcrepo</groupId>

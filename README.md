@@ -23,6 +23,13 @@ The default maven build profile, these configuration files are found in src/rbac
 mvn install
 ```
 
+## Web Access Control
+
+This maven build profile bundles WebAC authorization module to the fcrepo webapp. The configuration files are found in src/webac.
+```
+mvn install -P webac
+```
+
 ## XACML-based Access Control
 An alternative maven build profile, these configuration files are found in src/xacml.
 
@@ -57,5 +64,13 @@ mvn install -P audit,rbacl
 
 ```
 mvn install -P audit,xacml
+```
+
+
+
+#### Audit capability with WebAC
+
+```
+mvn install -P audit,webac
 ```
 
