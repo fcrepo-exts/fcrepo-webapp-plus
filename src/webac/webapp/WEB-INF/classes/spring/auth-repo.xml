@@ -41,6 +41,8 @@
 
     <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
 
+    <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
+
     <bean name="authenticationProvider" class="org.fcrepo.auth.common.ServletContainerAuthenticationProvider">
       <property name="fad" ref="fad"/>
       <property name="principalProviders" ref="principalProviderSet"/>
