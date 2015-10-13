@@ -376,7 +376,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>4.3.1-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
       <build>
@@ -414,7 +414,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-webac</artifactId>
-          <version>4.3.1-SNAPSHOT</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
       <build>
