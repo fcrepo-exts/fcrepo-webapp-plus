@@ -278,6 +278,9 @@
         <audit.auth.context>${audit.src.dir}/auth-resources</audit.auth.context>
         <audit.auth.excludes>**/auth-master.xml</audit.auth.excludes>
       </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>org.fcrepo</groupId>
@@ -374,9 +377,6 @@
         <profile.src.dir>${project.basedir}/src/rbacl</profile.src.dir>
         <auth.enabled>true</auth.enabled>
       </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <dependencies>
         <dependency>
           <groupId>org.fcrepo</groupId>
@@ -415,6 +415,9 @@
         <profile.src.dir>${project.basedir}/src/webac</profile.src.dir>
         <auth.enabled>true</auth.enabled>
       </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>org.fcrepo</groupId>
