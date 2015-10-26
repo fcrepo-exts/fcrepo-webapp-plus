@@ -74,3 +74,6 @@ mvn install -P audit,xacml
 mvn install -P audit,webac
 ```
 
+## Maintainers
+
+* [Andrew Woods](https://github.com/awoods)
