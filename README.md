@@ -16,11 +16,17 @@ Basic Authentication is configured for both profiles at this time.  To choose a 
 method, update the web.xml deployment descriptor for the webapp in question, being aware
 that this may break the single integration test.
 
-## Role-Base Access Control Lists
-
-The default maven build profile, these configuration files are found in src/rbacl.
+## Default Maven Build
+The default maven build profile is Audit capability with WebAC
 ```
 mvn install
+```
+
+## Role-Based Access Control Lists
+
+This maven build profile bundles the Role-Based access control module to the fcrepo webapp. The configuration files are found in src/rbacl.
+```
+mvn install -P rbacl
 ```
 
 ## Web Access Control
