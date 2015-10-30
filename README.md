@@ -36,6 +36,8 @@ This maven build profile bundles WebAC authorization module to the fcrepo webapp
 mvn install -P webac
 ```
 
+There is also a [Quick Start with WebAC guide](https://wiki.duraspace.org/display/FEDORA4x/Quick+Start+with+WebAC) on the Fedora 4 wiki that guides you through the basic steps of creating and updating WebAC access control lists, and protecting resources with those ACLs.
+
 ## XACML-based Access Control
 An alternative maven build profile, these configuration files are found in src/xacml.
 
