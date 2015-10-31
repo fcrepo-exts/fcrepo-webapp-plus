@@ -61,6 +61,11 @@
       <classifier>classes</classifier>
     </dependency>
     <dependency>
+      <groupId>org.fcrepo</groupId>
+      <artifactId>fcrepo-mint</artifactId>
+      <version>4.4.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.fcrepo.transform</groupId>
       <artifactId>fcrepo-transform</artifactId>
       <version>${fcrepo.transform.version}</version>
