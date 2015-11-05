@@ -246,6 +246,28 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.simplericity.jettyconsole</groupId>
+        <artifactId>jetty-console-maven-plugin</artifactId>
+        <version>1.56</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>createconsole</goal>
+            </goals>
+            <configuration>
+              <backgroundImage>${project.basedir}/src/main/webapp/images/fedora_logo_10in.png</backgroundImage>
+              <destinationFile>${project.build.directory}${file.separator}${project.artifactId}-${project.version}-jetty-console.jar</destinationFile>
+              <loginServices>
+                <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+                  <name>fcrepo</name>
+                  <config>${project.basedir}/src/test/users.txt</config>
+                </loginService>
+              </loginServices>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <argLine>-XX:MaxPermSize=128m ${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
@@ -403,6 +425,21 @@
                   <artifactId>fcrepo-webapp</artifactId>
                 </overlay>
               </overlays>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.simplericity.jettyconsole</groupId>
+            <artifactId>jetty-console-maven-plugin</artifactId>
+            <version>1.56</version>
+            <configuration>
+              <backgroundImage>${project.basedir}/src/main/webapp/images/fedora_logo_10in.png</backgroundImage>
+              <destinationFile>${project.build.directory}${file.separator}${project.artifactId}-${project.version}-jetty-console.jar</destinationFile>
+              <loginServices>
+                <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+                  <name>fcrepo</name>
+                  <config>WEB-INF/users.txt</config>
+                </loginService>
+              </loginServices>
             </configuration>
           </plugin>
         </plugins>
