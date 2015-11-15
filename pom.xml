@@ -136,8 +136,48 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/maven-shared-archive-resources</directory>
+      </resource>
+    </resources>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <attachClasses>true</attachClasses>
+            <archive>
+              <index>true</index>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
     <plugins>
+      <plugin>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>process-remote-resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>process</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <resourceBundles>
+            <resourceBundle>org.fcrepo:fcrepo-configs:${project.version}</resourceBundle>
+          </resourceBundles>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -253,6 +293,32 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.simplericity.jettyconsole</groupId>
+        <artifactId>jetty-console-maven-plugin</artifactId>
+        <version>1.56</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>createconsole</goal>
+            </goals>
+            <configuration>
+              <backgroundImage>${project.basedir}/src/main/resources/images/fedora_logo_10in.png</backgroundImage>
+              <destinationFile>
+                ${project.build.directory}${file.separator}${project.artifactId}-${project.version}-jetty-console.jar
+              </destinationFile>
+              <additionalDependencies>
+                <additionalDependency>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-jetty-security-plugin</artifactId>
+                  <version>4.4.1-SNAPSHOT</version>
+                </additionalDependency>
+              </additionalDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
