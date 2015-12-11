@@ -14,5 +14,5 @@
     <import resource="${fcrepo.spring.transactions.configuration:classpath:/spring/transactions.xml}"/>
 
     <!-- audit context -->
-    <import resource="${fcrepo.spring.jms.configuration:classpath:/spring/audit.xml}"/>
+    <import resource="${fcrepo.spring.audit.configuration:classpath:/spring/audit.xml}"/>
 </beans>
