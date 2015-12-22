@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.4.1-SNAPSHOT</version>
+    <version>4.5.0-RC-1</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.4.1-SNAPSHOT</version>
+  <version>4.5.0-RC-1</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -14,9 +14,9 @@
 
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
-    <fcrepo.version>4.4.1-SNAPSHOT</fcrepo.version>
-    <fcrepo.audit.version>4.4.1-SNAPSHOT</fcrepo.audit.version>
-    <fcrepo.transform.version>4.4.1-SNAPSHOT</fcrepo.transform.version>
+    <fcrepo.version>4.5.0-RC-1</fcrepo.version>
+    <fcrepo.audit.version>4.5.0-RC-1</fcrepo.audit.version>
+    <fcrepo.transform.version>4.5.0-RC-1</fcrepo.transform.version>
     <audit.build.name />
     <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
     <audit.auth.excludes />
@@ -63,7 +63,7 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-mint</artifactId>
-      <version>4.4.1-SNAPSHOT</version>
+      <version>4.5.0-RC-1</version>
     </dependency>
     <dependency>
       <groupId>org.fcrepo.transform</groupId>
