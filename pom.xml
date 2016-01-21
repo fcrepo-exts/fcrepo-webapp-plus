@@ -172,6 +172,12 @@
             <contextPath>${fcrepo.test.context.path}</contextPath>
             <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
           </webApp>
+          <systemProperties>
+            <systemProperty>
+              <name>fcrepo.audit.container</name>
+              <value>/audit</value>
+            </systemProperty>
+          </systemProperties>
 
         </configuration>
         <executions>
