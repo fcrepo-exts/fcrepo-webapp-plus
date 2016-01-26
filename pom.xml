@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.4.1-SNAPSHOT</version>
+    <version>4.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.4.1-SNAPSHOT</version>
+  <version>4.5.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -50,25 +50,25 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>${fcrepo.version}</version>
+      <version>4.5.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>${fcrepo.version}</version>
+      <version>4.5.1-SNAPSHOT</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-mint</artifactId>
-      <version>4.4.1-SNAPSHOT</version>
+      <version>4.5.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.fcrepo.transform</groupId>
       <artifactId>fcrepo-transform</artifactId>
-      <version>${fcrepo.transform.version}</version>
+      <version>4.5.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -89,14 +89,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>${fcrepo.version}</version>
+      <version>4.5.1-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>${fcrepo.version}</version>
+      <version>4.5.1-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -299,7 +299,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-audit</artifactId>
-          <version>${fcrepo.audit.version}</version>
+          <version>4.5.1-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <build>
@@ -436,7 +436,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-webac</artifactId>
-          <version>${fcrepo.version}</version>
+          <version>4.5.1-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <build>
