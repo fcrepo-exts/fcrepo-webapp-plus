@@ -14,9 +14,6 @@
 
   <properties>
     <project_name>fcrepo-webapp-plus</project_name>
-    <fcrepo.version>4.4.1-SNAPSHOT</fcrepo.version>
-    <fcrepo.audit.version>4.4.1-SNAPSHOT</fcrepo.audit.version>
-    <fcrepo.transform.version>4.4.1-SNAPSHOT</fcrepo.transform.version>
     <audit.build.name />
     <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
     <audit.auth.excludes />
@@ -322,7 +319,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-xacml</artifactId>
-          <version>${fcrepo.version}</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
 
@@ -367,7 +364,7 @@
                     <artifactItem>
                       <groupId>org.fcrepo</groupId>
                       <artifactId>fcrepo-module-auth-xacml</artifactId>
-                      <version>${fcrepo.version}</version>
+                      <version>${project.version}</version>
                       <type>jar</type>
                       <overWrite>false</overWrite>
                     </artifactItem>
@@ -395,7 +392,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-auth-roles-basic</artifactId>
-          <version>${fcrepo.version}</version>
+          <version>${project.version}</version>
         </dependency>
       </dependencies>
       <build>
