@@ -17,8 +17,10 @@
     <audit.build.name />
     <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
     <audit.auth.excludes />
+    <fcrepo.modeshope.configuration>${project.basedir}/src/test/resources/config/test_repository.json</fcrepo.modeshope.configuration>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
+    <connector.file.excludes>**/FileConnectorIT.java</connector.file.excludes>
   </properties>
 
   <repositories>
@@ -169,6 +171,10 @@
               <name>fcrepo.audit.container</name>
               <value>/audit</value>
             </systemProperty>
+            <systemProperty>
+              <name>fcrepo.modeshape.configuration</name>
+              <value>${project.basedir}/src/test/resources/config/test_repository.json</value>
+            </systemProperty>
           </systemProperties>
 
         </configuration>
@@ -181,7 +187,7 @@
               <goal>start</goal>
             </goals>
             <configuration>
-              <jettyXml>src/test/resources/jetty-test.xml</jettyXml>
+             <jettyXml>src/test/resources/jetty-test.xml</jettyXml>
               <stopPort>${jetty.dynamic.stop.port}</stopPort>
 
               <systemProperties>
@@ -237,9 +243,8 @@
 
                 <systemProperty>
                   <name>fcrepo.modeshape.configuration</name>
-                  <value>classpath:/config/file-simple/repository.json</value>
-               </systemProperty>
-
+                  <value>classpath:${project.basedir}/src/test/resources/config/test_repository.json</value>
+                </systemProperty>
               </systemProperties>
 
             </configuration>
@@ -260,6 +265,9 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <argLine>${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
+          <excludes>
+            <exclude>${connector.file.excludes}</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
@@ -461,6 +469,29 @@
       </build>
     </profile>
 
+    <profile>
+      <id>connector-file</id>
+      <properties>
+         <connector.file.src.dir>${project.basedir}/src/connector-file</connector.file.src.dir>
+         <connector.file.build.name>-file-connector</connector.file.build.name>
+         <connector.file.excludes>none</connector.file.excludes>
+       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo.connector-file</groupId>
+          <artifactId>fcrepo-connector-file</artifactId>
+          <version>4.5.2-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-connector-file${audit.build.name}-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${audit.auth.content}</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
   </profiles>
 
 </project>
