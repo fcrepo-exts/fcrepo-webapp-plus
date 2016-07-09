@@ -7,3 +7,5 @@ ActiveMQ/
 fcrepo4-data/
 overlays/
 *~
+.idea/
+*.iml
