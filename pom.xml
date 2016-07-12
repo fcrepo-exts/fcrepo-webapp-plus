@@ -17,7 +17,7 @@
     <audit.build.name />
     <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
     <audit.auth.excludes />
-    <fcrepo.modeshope.configuration>${project.basedir}/src/test/resources/config/test_repository.json</fcrepo.modeshope.configuration>
+    <fcrepo.modeshape.configuration>file:${build.directory}/test-classes/config/test_repository.json</fcrepo.modeshape.configuration>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
     <connector.file.excludes>**/FileConnectorIT.java</connector.file.excludes>
@@ -171,10 +171,6 @@
               <name>fcrepo.audit.container</name>
               <value>/audit</value>
             </systemProperty>
-            <systemProperty>
-              <name>fcrepo.modeshape.configuration</name>
-              <value>${project.basedir}/src/test/resources/config/test_repository.json</value>
-            </systemProperty>
           </systemProperties>
 
         </configuration>
@@ -243,7 +239,7 @@
 
                 <systemProperty>
                   <name>fcrepo.modeshape.configuration</name>
-                  <value>classpath:${project.basedir}/src/test/resources/config/test_repository.json</value>
+                  <value>${fcrepo.modeshape.configuration}</value>
                 </systemProperty>
               </systemProperties>
 
