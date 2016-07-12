@@ -466,10 +466,10 @@
     </profile>
 
     <profile>
-      <id>connector-file</id>
+      <id>connector</id>
       <properties>
          <connector.file.src.dir>${project.basedir}/src/connector-file</connector.file.src.dir>
-         <connector.file.build.name>-file-connector</connector.file.build.name>
+         <connector.file.build.name>-connector</connector.file.build.name>
          <connector.file.excludes>none</connector.file.excludes>
        </properties>
       <dependencies>
@@ -480,12 +480,27 @@
         </dependency>
       </dependencies>
       <build>
-        <finalName>${project.name}-connector-file${audit.build.name}-${project.version}</finalName>
+        <finalName>${project.name}-connector${audit.build.name}-${project.version}</finalName>
         <resources>
           <resource>
             <directory>${audit.auth.content}</directory>
           </resource>
         </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
+              <warSourceExcludes>${audit.auth.excludes}</warSourceExcludes>
+              <overlays>
+                <overlay>
+                  <groupId>org.fcrepo</groupId>
+                  <artifactId>fcrepo-webapp</artifactId>
+                </overlay>
+              </overlays>
+            </configuration>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>

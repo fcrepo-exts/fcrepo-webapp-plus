@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.fcrepo.http.commons.test.util.CloseableGraphStore;
-import org.fcrepo.integration.http.api.AbstractResourceIT;
 
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -47,6 +46,7 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
+import org.fcrepo.integration.AbstractResourceIT;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -64,8 +64,6 @@ public class FileConnectorIT extends AbstractResourceIT {
 
     /**
      * I should be able to link to content on a federated filesystem.
-     *
-     * @throws IOException in case of IOException
      **/
     @Test
     public void testFederatedDatastream() throws IOException {
@@ -85,8 +83,6 @@ public class FileConnectorIT extends AbstractResourceIT {
      * Given a directory at: test-FileSystem1/ /ds1 /ds2 /TestSubdir/ and a projection of test-objects as fedora:/files,
      * then I should be able to retrieve an object from fedora:/files/FileSystem1 that lists a child object at
      * fedora:/files/FileSystem1/TestSubdir and lists datastreams ds and ds2
-     *
-     * @throws IOException thrown during this function
      */
     @Test
     public void testGetProjectedNode() throws IOException {
@@ -105,8 +101,6 @@ public class FileConnectorIT extends AbstractResourceIT {
     /**
      * When I make changes to a resource in a federated filesystem, the parent folder's Last-Modified header should be
      * updated.
-     *
-     * @throws IOException in case of IOException
      **/
     @Test
     public void testLastModifiedUpdatedAfterUpdates() throws IOException {
