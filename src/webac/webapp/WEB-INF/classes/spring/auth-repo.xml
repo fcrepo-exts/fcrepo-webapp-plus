@@ -24,19 +24,11 @@
       <property name="separator" value=","/>
     </bean>
 
-    <!-- Optional PrincipalProvider that will use container configured roles as principals -->
-    <bean name="containerRolesProvider" class="org.fcrepo.auth.common.ContainerRolesPrincipalProvider">
-      <property name="roleNames">
-        <util:set set-class="java.util.HashSet">
-          <value>tomcat-role-1</value>
-          <value>tomcat-role-2</value>
-        </util:set>
-      </property>
-    </bean>
+    <bean name="delegatedPrincipalProvider" class="org.fcrepo.auth.common.DelegateHeaderPrincipalProvider"/>
 
     <util:set id="principalProviderSet">
-      <ref bean="containerRolesProvider"/>
       <ref bean="headerProvider"/>
+      <ref bean="delegatedPrincipalProvider"/>
     </util:set>
 
     <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
