@@ -39,6 +39,9 @@
       <ref bean="headerProvider"/>
     </util:set>
 
+    <!-- Add the fcr:accessroles resource -->
+    <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
+
     <bean name="fad" class="org.fcrepo.auth.roles.basic.BasicRolesAuthorizationDelegate"/>
 
     <bean name="authenticationProvider" class="org.fcrepo.auth.common.ServletContainerAuthenticationProvider">

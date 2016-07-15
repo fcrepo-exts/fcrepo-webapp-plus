@@ -15,6 +15,9 @@
     <property name="repositoryConfiguration" value="${fcrepo.modeshape.configuration:classpath:/config/repository.json}" />
   </bean>
 
+  <!-- Add the fcr:accessroles resource -->
+  <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
+
   <bean name="authenticationProvider" class="org.fcrepo.auth.common.ServletContainerAuthenticationProvider">
     <property name="fad" ref="fad"/>
   </bean>
