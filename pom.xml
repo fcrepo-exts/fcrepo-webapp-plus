@@ -239,6 +239,11 @@
                   <name>auth.enabled</name>
                   <value>${auth.enabled:false}</value>
                 </systemProperty>
+                
+                <systemProperty>
+                  <name>fcrepo.modeshape.configuration</name>
+                  <value>classpath:/config/minimal-default/repository.json</value>
+               </systemProperty>
 
               </systemProperties>
 
