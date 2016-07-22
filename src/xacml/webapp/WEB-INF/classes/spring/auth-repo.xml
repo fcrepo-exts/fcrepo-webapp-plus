@@ -12,7 +12,7 @@
 
   <bean name="modeshapeRepofactory" class="org.fcrepo.kernel.modeshape.spring.ModeShapeRepositoryFactoryBean"
     depends-on="authenticationProvider">
-    <property name="repositoryConfiguration" value="${fcrepo.modeshape.configuration:classpath:/config/repository.json}" />
+    <property name="repositoryConfiguration" value="${fcrepo.modeshape.configuration}" />
   </bean>
 
   <!-- Add the fcr:accessroles resource -->
