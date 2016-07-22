@@ -15,7 +15,7 @@
 
     <bean name="modeshapeRepofactory"
         class="org.fcrepo.kernel.modeshape.spring.ModeShapeRepositoryFactoryBean"
-        p:repositoryConfiguration="${fcrepo.modeshape.configuration:classpath:/config/repository.json}"
+        p:repositoryConfiguration="${fcrepo.modeshape.configuration}"
         depends-on="authenticationProvider"/>
 
     <!-- Optional PrincipalProvider that will inspect the request header, "some-header", for user role values -->
