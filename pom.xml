@@ -222,7 +222,7 @@
                 </systemProperty>
 
                 <systemProperty>
-                  <name>fcrepo.activemq.dir</name>
+                  <name>fcrepo.activemq.directory</name>
                   <value>${project.build.directory}/active-mq</value>
                 </systemProperty>
 
