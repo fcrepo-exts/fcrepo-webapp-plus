@@ -104,7 +104,7 @@ public class SanityIT {
     }
 
     @Test
-    public void doSanityTranform() throws IOException {
+    public void doSanityPost() throws IOException {
         final HttpPost post = new HttpPost(serverAddress + "rest/");
         setAdminAuth(post);
         final HttpResponse responsePost = client.execute(post);
@@ -114,7 +114,7 @@ public class SanityIT {
         assertNotNull("Location header was null!", locationHeader);
 
         final String location = locationHeader.getValue();
-        final HttpGet get = new HttpGet(location + "/fcr:transform/default");
+        final HttpGet get = new HttpGet(location);
         setAdminAuth(get);
         assertEquals(OK.getStatusCode(), getStatus(get));
     }
