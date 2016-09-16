@@ -17,9 +17,9 @@
  */
 package org.fcrepo.integration.connector.file;
 
-import static com.hp.hpl.jena.graph.Node.ANY;
-import static com.hp.hpl.jena.graph.NodeFactory.createLiteral;
-import static com.hp.hpl.jena.graph.NodeFactory.createURI;
+import static org.apache.jena.graph.Node.ANY;
+import static org.apache.jena.graph.NodeFactory.createURI;
+import static org.apache.jena.vocabulary.RDF.type;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.sleep;
 import static javax.ws.rs.core.Response.Status.CREATED;
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.fcrepo.kernel.api.RdfLexicon.MODE_NAMESPACE;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import org.fcrepo.http.commons.test.util.CloseableGraphStore;
+import org.fcrepo.http.commons.test.util.CloseableDataset;
 
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -45,12 +46,15 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
+import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.graph.Node;
+
 import org.fcrepo.integration.AbstractResourceIT;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.hp.hpl.jena.graph.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests around using the fcrepo-connector-file
@@ -59,6 +63,8 @@ import com.hp.hpl.jena.graph.Node;
  * @author ajs6f
  */
 public class FileConnectorIT extends AbstractResourceIT {
+
+    private final Logger logger = LoggerFactory.getLogger(FileConnectorIT.class);
 
     private static SimpleDateFormat headerFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
@@ -80,21 +86,24 @@ public class FileConnectorIT extends AbstractResourceIT {
     }
 
     /**
-     * Given a directory at: test-FileSystem1/ /ds1 /ds2 /TestSubdir/ and a projection of test-objects as fedora:/files,
-     * then I should be able to retrieve an object from fedora:/files/FileSystem1 that lists a child object at
-     * fedora:/files/FileSystem1/TestSubdir and lists datastreams ds and ds2
+     * Given a directory at: test-FileSystem1/ /ds1 /ds2 /TestSubdir/ and a projection of test-objects as
+     * fedora:/files, then I should be able to retrieve an object from fedora:/files/FileSystem1 that lists a child
+     * object at fedora:/files/FileSystem1/TestSubdir and lists datastreams ds and ds2
+     *
+     * @throws IOException thrown during this function
      */
     @Test
     public void testGetProjectedNode() throws IOException {
         final HttpGet method = new HttpGet(serverAddress + "files/FileSystem1");
-        try (final CloseableGraphStore result = getGraphStore(method)) {
+        try (final CloseableDataset dataset = getDataset(method)) {
+            final DatasetGraph graph = dataset.asDatasetGraph();
             final Node subjectURI = createURI(serverAddress + "files/FileSystem1");
-            assertTrue("Didn't find the first datastream! ",
-                    result.contains(ANY, subjectURI, ANY, createURI(subjectURI + "/ds1")));
-            assertTrue("Didn't find the second datastream! ",
-                    result.contains(ANY, subjectURI, ANY, createURI(subjectURI + "/ds2")));
-            assertTrue("Didn't find the first object! ",
-                    result.contains(ANY, subjectURI, ANY, createURI(subjectURI + "/TestSubdir")));
+            assertTrue("Didn't find the first datastream! ", graph.contains(ANY,
+                    subjectURI, ANY, createURI(subjectURI + "/ds1")));
+            assertTrue("Didn't find the second datastream! ", graph.contains(ANY,
+                    subjectURI, ANY, createURI(subjectURI + "/ds2")));
+            assertTrue("Didn't find the first object! ", graph.contains(ANY,
+                    subjectURI, ANY, createURI(subjectURI + "/TestSubdir")));
         }
     }
 
@@ -194,40 +203,59 @@ public class FileConnectorIT extends AbstractResourceIT {
         assertEquals(OK.getStatusCode(), getStatus(originalGet));
     }
 
+    @Test
+    public void testGetRepositoryGraph() throws IOException {
+        try (final CloseableDataset dataset = getDataset(getObjMethod(""))) {
+            final DatasetGraph graph = dataset.asDatasetGraph();
+            logger.trace("Retrieved repository graph:\n" + graph);
+            assertFalse("Should not find the root type", graph.contains(ANY,
+                    ANY, type.asNode(), createURI(MODE_NAMESPACE + "root")));
+        }
+    }
+
     /**
-     * I should be able to move a node within a federated filesystem with properties preserved.
+     * I should be able to create two subdirectories of a non-existent parent directory.
      *
-     * @throws IOException exception thrown during this function
+     * @throws IOException thrown during this function
      **/
     @Ignore("Enabled once the FedoraFileSystemConnector becomes readable/writable")
-    public void testFederatedMoveWithProperties() throws IOException {
-        // create object on federation
-        final String pid = getRandomUniqueId();
-        final String source = serverAddress + "files/" + pid + "/src";
-        createObject("files/" + pid + "/src");
+    // TODO
+            public
+            void testBreakFederation() throws IOException {
+        final String id = getRandomUniqueId();
+        testGetRepositoryGraph();
+        createObjectAndClose("files/a0/" + id + "b0");
+        createObjectAndClose("files/a0/" + id + "b1");
+        testGetRepositoryGraph();
+    }
 
-        // add properties
-        final HttpPatch patch = new HttpPatch(source);
-        patch.addHeader("Content-Type", "application/sparql-update");
-        patch.setEntity(
-                new StringEntity("insert { <> <http://purl.org/dc/elements/1.1/identifier> \"identifier.123\" . " +
-                        "<> <http://purl.org/dc/elements/1.1/title> \"title.123\" } where {}"));
-        assertEquals(NO_CONTENT.getStatusCode(), getStatus(patch));
+    /**
+     * I should be able to upload a file to a read/write federated filesystem.
+     *
+     * @throws IOException thrown during this function
+     **/
+    @Ignore("Enabled once the FedoraFileSystemConnector becomes readable/writable")
+    // TODO
+            public
+            void testUploadToProjection() throws IOException {
+        // upload file to federated filesystem using rest api
+        final String id = getRandomUniqueId();
+        final String uploadLocation = serverAddress + "files/" + id + "/ds1";
+        final String uploadContent = "abc123";
+        logger.debug("Uploading to federated filesystem via rest api: " + uploadLocation);
+        // final HttpResponse response = createDatastream("files/" + pid, "ds1", uploadContent);
+        // final String actualLocation = response.getFirstHeader("Location").getValue();
+        // assertEquals("Wrong URI in Location header", uploadLocation, actualLocation);
 
-        // move object
-        final String destination = serverAddress + "files/" + pid + "/dst";
-        final HttpMove request = new HttpMove(source);
-        request.addHeader("Destination", destination);
-        assertEquals(CREATED.getStatusCode(), getStatus(request));
-
-        // check properties
-        final HttpGet get = new HttpGet(destination);
-        get.addHeader("Accept", "application/n-triples");
-        try (final CloseableGraphStore graphStore = getGraphStore(get)) {
-            assertTrue(graphStore.contains(ANY, createURI(destination),
-                    createURI("http://purl.org/dc/elements/1.1/identifier"), createLiteral("identifier.123")));
-            assertTrue(graphStore.contains(ANY, createURI(destination),
-                    createURI("http://purl.org/dc/elements/1.1/title"), createLiteral("title.123")));
+        // validate content
+        try (final CloseableHttpResponse getResponse = execute(new HttpGet(uploadLocation))) {
+            final String actualContent = EntityUtils.toString(getResponse.getEntity());
+            assertEquals(OK.getStatusCode(), getResponse.getStatusLine().getStatusCode());
+            assertEquals("Content doesn't match", actualContent, uploadContent);
+        }
+        // validate object profile
+        try (final CloseableHttpResponse objResponse = execute(new HttpGet(serverAddress + "files/" + id))) {
+            assertEquals(OK.getStatusCode(), objResponse.getStatusLine().getStatusCode());
         }
     }
 
@@ -245,23 +273,6 @@ public class FileConnectorIT extends AbstractResourceIT {
         @Override
         public String getMethod() {
             return "COPY";
-        }
-    }
-
-    @NotThreadSafe // HttpRequestBase is @NotThreadSafe
-    private class HttpMove extends HttpRequestBase {
-
-        /**
-         * @throws IllegalArgumentException if the uri is invalid.
-         */
-        public HttpMove(final String uri) {
-            super();
-            setURI(URI.create(uri));
-        }
-
-        @Override
-        public String getMethod() {
-            return "MOVE";
         }
     }
 }

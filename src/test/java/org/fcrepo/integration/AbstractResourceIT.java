@@ -17,25 +17,24 @@
  */
 package org.fcrepo.integration;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.update.GraphStoreFactory;
+import org.apache.jena.rdf.model.Model;
+import static org.apache.jena.rdf.model.ModelFactory.createDefaultModel;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
-import org.fcrepo.http.commons.test.util.CloseableGraphStore;
+import org.fcrepo.http.commons.test.util.CloseableDataset;
 import org.junit.Assert;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -45,8 +44,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
-
 import static java.lang.Integer.MAX_VALUE;
 import static java.util.UUID.randomUUID;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
@@ -75,10 +72,6 @@ public class AbstractResourceIT {
     private static Logger logger;
     private static int noAuthExpectedResponse;
 
-    private static CloseableHttpClient createClient() {
-        return HttpClientBuilder.create().setMaxConnPerRoute(MAX_VALUE).setMaxConnTotal(MAX_VALUE).build();
-    }
-
     @Before
     public void setLogger() {
         logger = LoggerFactory.getLogger(this.getClass());
@@ -96,16 +89,14 @@ public class AbstractResourceIT {
     protected static final String serverAddress = "http://" + HOSTNAME + ":" +
             SERVER_PORT + CONTEXT_PATH + "rest/";
 
-    private static final PoolingClientConnectionManager connectionManager =
-            new PoolingClientConnectionManager();
+    protected static CloseableHttpClient client = createClient();
 
-    private static CloseableHttpClient client = createClient();
+    protected static CloseableHttpClient createClient() {
+        return HttpClientBuilder.create().setMaxConnPerRoute(MAX_VALUE).setMaxConnTotal(MAX_VALUE).build();
+    }
 
-    static {
-        connectionManager.setMaxTotal(Integer.MAX_VALUE);
-        connectionManager.setDefaultMaxPerRoute(5);
-        connectionManager.closeIdleConnections(3, TimeUnit.SECONDS);
-        client = new DefaultHttpClient(connectionManager);
+    protected static HttpGet getObjMethod(final String id) {
+        return new HttpGet(serverAddress + id);
     }
 
     protected static HttpPost postObjMethod() {
@@ -129,14 +120,18 @@ public class AbstractResourceIT {
         assertEquals(CREATED.getStatusCode(), getStatus(putDSMethod(pid, dsid, content)));
     }
 
-    private static CloseableGraphStore parseTriples(final HttpEntity entity) throws IOException {
+    public static CloseableDataset parseTriples(final HttpEntity entity) throws IOException {
         return parseTriples(entity.getContent(), getRdfSerialization(entity));
     }
 
-    private static CloseableGraphStore parseTriples(final InputStream content, final String contentType) {
-        final Model model = ModelFactory.createDefaultModel();
+    public static CloseableDataset parseTriples(final InputStream content) {
+        return parseTriples(content, "N3");
+    }
+
+    public static CloseableDataset parseTriples(final InputStream content, final String contentType) {
+        final Model model = createDefaultModel();
         model.read(content, "", contentType);
-        return new CloseableGraphStore(GraphStoreFactory.create(model));
+        return new CloseableDataset(model);
     }
 
     private static String getRdfSerialization(final HttpEntity entity) {
@@ -168,11 +163,24 @@ public class AbstractResourceIT {
         }
     }
 
-    protected CloseableGraphStore getGraphStore(final HttpUriRequest req) throws IOException {
-        return getGraphStore(client, req);
+    protected void createObjectAndClose(final String pid) {
+        try {
+            createObject(pid).close();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private CloseableGraphStore getGraphStore(final CloseableHttpClient client, final HttpUriRequest req)
+    /**
+     * Executes an HTTP request and parses the RDF found in the response, returning it in a
+     * {@link CloseableDataset}, then closes the response.
+     *
+     * @param client the client to use
+     * @param req the request to execute
+     * @return the graph retrieved
+     * @throws IOException in case of IOException
+     */
+    protected CloseableDataset getDataset(final CloseableHttpClient client, final HttpUriRequest req)
             throws IOException {
         if (!req.containsHeader("Accept")) {
             req.addHeader("Accept", "application/n-triples");
@@ -181,11 +189,37 @@ public class AbstractResourceIT {
 
         try (final CloseableHttpResponse response = client.execute(req)) {
             assertEquals(OK.getStatusCode(), response.getStatusLine().getStatusCode());
-            final CloseableGraphStore result = parseTriples(response.getEntity());
+            final CloseableDataset result = parseTriples(response.getEntity());
             logger.trace("Retrieved RDF: {}", result);
             return result;
         }
 
+    }
+
+    /**
+     * Parses the RDF found in and HTTP response, returning it in a {@link CloseableDataset}.
+     *
+     * @param response the response to parse
+     * @return the graph retrieved
+     * @throws IOException in case of IOException
+     */
+    protected CloseableDataset getDataset(final HttpResponse response) throws IOException {
+        assertEquals(OK.getStatusCode(), getStatus(response));
+        final CloseableDataset result = parseTriples(response.getEntity());
+        logger.trace("Retrieved RDF: {}", result);
+        return result;
+    }
+
+    /**
+     * Executes an HTTP request and parses the RDF found in the response, returning it in a
+     * {@link CloseableDataset}, then closes the response.
+     *
+     * @param req the request to execute
+     * @return the constructed graph
+     * @throws IOException in case of IOException
+     */
+    protected CloseableDataset getDataset(final HttpUriRequest req) throws IOException {
+        return getDataset(client, req);
     }
 
     protected static int getStatus(final HttpUriRequest req) {
@@ -224,6 +258,4 @@ public class AbstractResourceIT {
     private static String getLocation(final HttpResponse response) {
         return response.getFirstHeader("Location").getValue();
     }
-
-
 }
