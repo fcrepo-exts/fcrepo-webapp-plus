@@ -20,7 +20,6 @@
     <fcrepo.modeshape.configuration>classpath:/config/file-simple/repository.json</fcrepo.modeshape.configuration>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
-    <connector.file.excludes>**/FileConnectorIT.java</connector.file.excludes>
   </properties>
 
   <repositories>
@@ -183,7 +182,7 @@
               <goal>start</goal>
             </goals>
             <configuration>
-             <jettyXml>src/test/resources/jetty-test.xml</jettyXml>
+              <jettyXml>src/test/resources/jetty-test.xml</jettyXml>
               <stopPort>${jetty.dynamic.stop.port}</stopPort>
 
               <systemProperties>
@@ -261,9 +260,6 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <argLine>${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
-          <excludes>
-            <exclude>${connector.file.excludes}</exclude>
-          </excludes>
         </configuration>
         <executions>
           <execution>
@@ -304,7 +300,7 @@
         </dependency>
       </dependencies>
       <build>
-        <finalName>${project.name}-audit${connector.build.name}-${project.version}</finalName>
+        <finalName>${project.name}-audit-${project.version}</finalName>
         <resources>
           <resource>
             <directory>${audit.src.dir}/resources</directory>
@@ -316,21 +312,18 @@
     <profile>
       <id>connector</id>
       <properties>
-         <connector.file.src.dir>${project.basedir}/src/connector-file</connector.file.src.dir>
-         <connector.file.build.name>-connector</connector.file.build.name>
-         <connector.file.excludes>none</connector.file.excludes>
-         <fcrepo.modeshape.configuration>file:${project.build.directory}/test-classes/config/test_repository_file_connector.json</fcrepo.modeshape.configuration>
-       </properties>
+         <connector.build.name>-connector</connector.build.name>
+      </properties>
       <dependencies>
-        <dependency>
-          <groupId>org.fcrepo</groupId>
-          <artifactId>fcrepo-connector-file</artifactId>
-          <version>4.7.0-SNAPSHOT</version>
-        </dependency>
+         <dependency>
+            <groupId>org.fcrepo</groupId>
+            <artifactId>fcrepo-connector-file</artifactId>
+            <version>4.7.0-SNAPSHOT</version>
+         </dependency>
       </dependencies>
       <build>
-        <finalName>${project.name}-connector${audit.build.name}-${project.version}</finalName>
-        <resources>
+         <finalName>${project.name}${audit.build.name}-connector-${project.version}</finalName>
+         <resources>
           <resource>
             <directory>${audit.auth.context}</directory>
           </resource>
@@ -339,7 +332,6 @@
           <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
-              <warSourceDirectory>${profile.src.dir}/webapp</warSourceDirectory>
               <warSourceExcludes>${audit.auth.excludes}</warSourceExcludes>
               <overlays>
                 <overlay>
@@ -507,7 +499,7 @@
         </plugins>
       </build>
     </profile>
-</profiles>
+  </profiles>
 
 
 </project>
