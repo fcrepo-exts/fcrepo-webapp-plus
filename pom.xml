@@ -17,6 +17,7 @@
     <audit.build.name />
     <audit.auth.context>${project.basedir}/src/audit/dummy-resources</audit.auth.context>
     <audit.auth.excludes />
+    <connector.build.name />
     <fcrepo.modeshape.configuration>classpath:/config/file-simple/repository.json</fcrepo.modeshape.configuration>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
