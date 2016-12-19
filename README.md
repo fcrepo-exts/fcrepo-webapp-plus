@@ -75,34 +75,12 @@ mvn install -P audit,xacml
 ```
 
 
-
 #### Audit capability with WebAC
 
 ```
 mvn install -P audit,webac
 ```
 
-## Filesystem Federation (projection) Capability Package
-This profile builds the webapp that includes the [fcrepo-connector-file](https://github.com/fcrepo4-exts/fcrepo-connector-file) module that provides the ability to serve static files from a mapped filesystem through the Fedora repository.
-
-```
-mvn install -P connector
-```
-
-#### Filesystem federation capability with WebAC
-```
-mvn install -P webac,connector
-```
-
-#### Filesystem federation capability with Audit
-```
-mvn install -P audit,connector
-```
-
-#### Filesystem federation capability with WebAC and Audit
-```
-mvn install -P webac,audit,connector
-```
 
 ## Maintainers
 
