@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+  <context:property-placeholder/>
+
+  <!-- fcrepo-transform settings -->
+  <bean id="cacheDir" class="java.io.File">
+    <constructor-arg type="java.lang.String" value="${fcrepo.home:/tmp}/ldcache"/>
+  </bean>
+
+  <!-- define the ldcache backend to use -->
+  <bean class="org.apache.marmotta.ldcache.backend.file.LDCachingFileBackend" init-method="initialize" destroy-method="shutdown">
+    <constructor-arg ref="cacheDir"/>
+  </bean>
+
+  <!-- add any additional ldclient endpoints -->
+  <util:list id="endpoints" value-type="org.apache.marmotta.ldclient.api.endpoint.Endpoint">
+    <bean class="org.fcrepo.transform.ldcache.FedoraEndpoint">
+      <constructor-arg type="java.lang.String" value="http://localhost:${fcrepo.dynamic.test.port:8080}"/>
+      <constructor-arg type="long" value="0"/>
+    </bean>
+  </util:list>
+
+  <!-- define the username and password for the user accessing the repo with the ldclient -->
+  <!-- uncomment and adjust values if using repository authentication
+  <bean id="credentials" class="org.apache.http.auth.UsernamePasswordCredentials">
+    <constructor-arg type="java.lang.String" value="USERNAME"/>
+    <constructor-arg type="java.lang.String" value="PASSWORD"/>
+  </bean>
+  -->
+
+  <!-- define the host and port for the repository -->
+  <bean id="authScope" class="org.apache.http.auth.AuthScope">
+    <constructor-arg type="java.lang.String" value="localhost"/>
+    <constructor-arg type="int" value="${fcrepo.dynamic.test.port:8080}"/>
+  </bean>
+
+</beans>

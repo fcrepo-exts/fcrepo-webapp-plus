@@ -12,5 +12,6 @@
     <import resource="${fcrepo.spring.eventing.configuration:classpath:/spring/eventing.xml}"/>
     <import resource="${fcrepo.spring.jms.configuration:classpath:/spring/jms.xml}"/>
     <import resource="${fcrepo.spring.transactions.configuration:classpath:/spring/transactions.xml}"/>
+    <import resource="${fcrepo.spring.transform.configuration:classpath:/spring/transform.xml}"/>
 
 </beans>
