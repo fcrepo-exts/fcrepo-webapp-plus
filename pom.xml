@@ -88,10 +88,6 @@
       <version>${apple.trees.version}</version>
       <exclusions>
         <exclusion>
-          <groupId>org.fcrepo</groupId>
-          <artifactId>fcrepo-kernel-api</artifactId>
-        </exclusion>
-        <exclusion>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
         </exclusion>
