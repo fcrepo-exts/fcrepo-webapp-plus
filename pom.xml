@@ -19,6 +19,7 @@
     <audit.auth.excludes />
     <connector.build.name />
     <fcrepo.modeshape.configuration>classpath:/config/file-simple/repository.json</fcrepo.modeshape.configuration>
+    <apple.trees.version>0.1.3</apple.trees.version>
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
   </properties>
@@ -83,7 +84,7 @@
     <dependency>
       <groupId>edu.amherst.acdc</groupId>
       <artifactId>acrepo-apple-trees</artifactId>
-      <version>0.1.3</version>
+      <version>${apple.trees.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.fcrepo</groupId>
