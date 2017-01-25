@@ -81,6 +81,26 @@
     </dependency>
 
     <dependency>
+      <groupId>edu.amherst.acdc</groupId>
+      <artifactId>acrepo-apple-trees</artifactId>
+      <version>0.1.3</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.fcrepo</groupId>
+          <artifactId>fcrepo-kernel-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-codec</groupId>
+          <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.clojure</groupId>
+          <artifactId>tools.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
       <version>4.8.0-SNAPSHOT</version>
