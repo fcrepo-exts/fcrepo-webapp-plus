@@ -10,6 +10,9 @@
   <logger name="org.fcrepo.auth" additivity="false" level="${fcrepo.log.auth:-null}">
     <appender-ref ref="STDOUT"/>
   </logger>
+  <logger name="org.fcrepo.connector.file" additivity="false" level="${fcrepo.log.connector.file:-null}">
+    <appender-ref ref="STDOUT"/>
+  </logger>
   <logger name="org.fcrepo.http.api" additivity="false" level="${fcrepo.log.http.api:-null}">
     <appender-ref ref="STDOUT"/>
   </logger>
@@ -22,12 +25,13 @@
   <logger name="org.fcrepo.kernel" additivity="false" level="${fcrepo.log.kernel:-null}">
     <appender-ref ref="STDOUT"/>
   </logger>
+  <logger name="org.fcrepo.transform" additivity="false" level="${fcrepo.log.transform:-null}">
+    <appender-ref ref="STDOUT"/>
+  </logger>
   <logger name="org.fcrepo" additivity="false" level="${fcrepo.log:-INFO}">
     <appender-ref ref="STDOUT"/>
   </logger>
-  <logger name="org.fcrepo.audit" additivity="false" level="${fcrepo.log.audit:-TRACE}">
-    <appender-ref ref="STDOUT"/>
-  </logger>
+
   <root level="WARN">
     <appender-ref ref="STDOUT"/>
   </root>
