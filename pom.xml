@@ -310,12 +310,12 @@
 
   <profiles>
     <profile>
-      <id>auth</id>
+      <id>webac</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <profile.src.dir>${project.basedir}/src/auth</profile.src.dir>
+        <profile.src.dir>${project.basedir}/src/webac</profile.src.dir>
         <auth.enabled>true</auth.enabled>
         <fcrepo.modeshape.configuration>classpath:/config/servlet-auth/repository.json</fcrepo.modeshape.configuration>
       </properties>
