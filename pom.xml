@@ -100,16 +100,28 @@
         </exclusion>
       </exclusions>
     </dependency>
-
     <!-- Needed for audit functionality -->
-    <!--
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-audit</artifactId>
       <version>4.8.0-SNAPSHOT</version>
     </dependency>
+    <!-- Role Based Authorization -->
+    <!--
+    <dependency>
+      <groupId>org.fcrepo</groupId>
+      <artifactId>fcrepo-module-auth-rbacl</artifactId>
+      <version>4.8.0-SNAPSHOT</version>
+    </dependency>
     -->
-
+    <!-- XACML Authorization -->
+    <!--
+    <dependency>
+      <groupId>org.fcrepo</groupId>
+      <artifactId>fcrepo-module-auth-xacml</artifactId>
+      <version>4.8.0-SNAPSHOT</version>
+    </dependency>
+    -->
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
