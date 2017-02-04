@@ -32,6 +32,8 @@ There is also a [Quick Start with WebAC guide](https://wiki.duraspace.org/displa
 
 The fcrepo-webapp-plus includes a single spring XML configuration file `configuration.xml`, it is suggested to make a copy of this file and use the system property `fcrepo.spring.configuration` to point to your customized version.
 
+`JAVA_OPTS="${JAVA_OPTS} -Dfcrepo.spring.configuration=file:/path/to/configuration.xml"`
+
 You must also specify the `fcrepo.modeshape.configuration` system property to point to a valid respository configuration file. You can find several example [repository.json files here](https://github.com/fcrepo4/fcrepo4/tree/master/fcrepo-configs/src/main/resources/config)
 
 # Authentication Packages
@@ -43,6 +45,8 @@ that this may break the single integration test.
 You must also configure the authorization package as described below.
 
 ## Role-Based Access Control Lists
+
+####This has been deprecated, please use WebAC Access Control.
 
 Ensure you have the basic authentication enabled in the web.xml. 
 
@@ -63,6 +67,8 @@ Then comment out the WebAC beans in the configuration.xml and un-comment the RbA
 You will also need to include/un-comment the `fcrepo-module-auth-rbacl` artifact dependency in the pom.xml.
 
 ## XACML-based Access Control
+
+####This has been deprecated, please use WebAC Access Control.
 
 Ensure you have the basic authentication enabled in the web.xml. 
 

@@ -106,7 +106,9 @@
       <artifactId>fcrepo-audit</artifactId>
       <version>4.8.0-SNAPSHOT</version>
     </dependency>
-    <!-- Role Based Authorization -->
+    <!-- Role Based Authorization 
+      NOTE: This has been deprecated, please use 
+      fcrepo-module-auth-webac -->
     <!--
     <dependency>
       <groupId>org.fcrepo</groupId>
@@ -114,7 +116,9 @@
       <version>4.8.0-SNAPSHOT</version>
     </dependency>
     -->
-    <!-- XACML Authorization -->
+    <!-- XACML Authorization
+      NOTE: This has been deprecated, please use 
+      fcrepo-module-auth-webac -->
     <!--
     <dependency>
       <groupId>org.fcrepo</groupId>
@@ -172,7 +176,9 @@
   </dependencies>
 
   <build>
+    
     <plugins>
+      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -316,6 +322,22 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
+          <overlays>
+            <overlay>
+              <groupId>org.fcrepo</groupId>
+              <artifactId>fcrepo-webapp</artifactId>
+              <excludes>
+                <exclude>WEB-INF/classes/spring/*.xml</exclude>
+              </excludes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
     </plugins>
 
   </build>
@@ -355,6 +377,22 @@
                 </overlay>
               </overlays>
             </configuration>
+            <executions>
+              <execution>
+                <id>default-war</id>
+                <configuration>
+                  <webResources>
+                    <resource>
+                      <directory>${project.basedir}/src/main/webapp</directory>
+                      <includes>
+                        <include>WEB-INF/classes/spring/repository.xml</include>
+                        <include>WEB-INF/classes/logback.xml</include>
+                      </includes>
+                    </resource>
+                  </webResources>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>

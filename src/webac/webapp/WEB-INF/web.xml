@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
 
-    <display-name>Fedora 4</display-name>
+    <display-name>Fedora Repository</display-name>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -41,7 +41,7 @@
         <url-pattern>/static/*</url-pattern>
     </filter-mapping>
 
-    <!--Uncomment section below to enable Basic-Authentication-->
+    <!--Comment section below to disable Basic-Authentication-->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Fedora4</web-resource-name>
