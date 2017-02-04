@@ -123,11 +123,18 @@
     <!-- **************************
               PID Minter
          ************************** -->
-    <!-- Mints PIDs using random UUIDs -->
+    <!-- Mints PIDs using random UUIDs and generates additional hierarchy -->
     <bean class="org.fcrepo.mint.UUIDPathMinter"
         c:length="${fcrepo.uuid.path.length:2}"
         c:count="${fcrepo.uuid.path.count:4}"/>
 
+    <!-- Mints Pids with no additional hierarchy. 
+          Choose this if you use the AppleTreeConverter 
+          in the translation chain below. -->
+    <!--
+    <bean class="org.fcrepo.mint.UUIDPidMinter" />
+    -->
+          
     <!-- Mints PIDs using external REST service
     <bean class="org.fcrepo.mint.HttpPidMinter"
         c:url="http://localhost/my/minter" c:method="POST"
@@ -139,7 +146,10 @@
     
     <!-- Identifier translation chain -->
     <util:list id="translationChain" value-type="org.fcrepo.kernel.api.identifiers.InternalIdentifierConverter">
-      <!-- Use AppleTreeConverter to hide Fedora's Pairtree hierarchy from public view -->
+      <!-- Use AppleTreeConverter to hide Fedora's Pairtree hierarchy from public view
+          https://gitlab.amherst.edu/acdc/acrepo-apple-trees.
+          NOTE: It is recommended to use the UUIDPidMinter above with this converter.
+      -->
       <!--
         <bean class="edu.amherst.acdc.orchard.AppleTreeConverter"/>
       -->

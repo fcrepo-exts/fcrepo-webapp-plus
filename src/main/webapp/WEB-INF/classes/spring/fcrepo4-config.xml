@@ -130,7 +130,7 @@
           Select one of the following.
          ************************** -->
     
-    <!-- Mints PIDs using random UUIDs and generating additional hierarchy -->
+    <!-- Mints PIDs using random UUIDs and generates additional hierarchy -->
     <bean class="org.fcrepo.mint.UUIDPathMinter"
         c:length="${fcrepo.uuid.path.length:2}"
         c:count="${fcrepo.uuid.path.count:4}"/>
