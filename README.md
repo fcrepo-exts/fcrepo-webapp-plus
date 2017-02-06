@@ -30,9 +30,9 @@ There is also a [Quick Start with WebAC guide](https://wiki.duraspace.org/displa
 
 # Configuring for your use
 
-The fcrepo-webapp-plus includes a single spring XML configuration file `configuration.xml`, it is suggested to make a copy of this file and use the system property `fcrepo.spring.configuration` to point to your customized version.
+The fcrepo-webapp-plus includes a single spring XML configuration file `fcrepo-config.xml`, it is suggested to make a copy of this file and use the system property `fcrepo.spring.configuration` to point to your customized version.
 
-`JAVA_OPTS="${JAVA_OPTS} -Dfcrepo.spring.configuration=file:/path/to/configuration.xml"`
+`JAVA_OPTS="${JAVA_OPTS} -Dfcrepo.spring.configuration=file:/path/to/fcrepo-config.xml"`
 
 You must also specify the `fcrepo.modeshape.configuration` system property to point to a valid respository configuration file. You can find several example [repository.json files here](https://github.com/fcrepo4/fcrepo4/tree/master/fcrepo-configs/src/main/resources/config)
 
@@ -50,7 +50,7 @@ You must also configure the authorization package as described below.
 
 Ensure you have the basic authentication enabled in the web.xml. 
 
-Then comment out the WebAC beans in the configuration.xml and un-comment the RbAcl beans in your `configuration.xml` file.
+Then comment out the WebAC beans and un-comment the RbAcl beans in your `fcrepo-config.xml` file.
 
 ```
     <!-- **** WebAC Authentication **** -->
@@ -98,7 +98,7 @@ You will also need to include/un-comment the `fcrepo-module-auth-xacml` artifact
 # Audit Capability Package
 The [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) capability is included in fcrepo-webapp-plus by default.
 
-You must enable it (un-comment it) in your `configuration.xml` file.
+You must enable it (un-comment it) in your `fcrepo-config.xml` file.
 
 ```
     <!-- **************************
@@ -112,7 +112,7 @@ You must enable it (un-comment it) in your `configuration.xml` file.
 
 ## Audit capability with Authentication
 
-To achieve this functionality, simply enable the form of authorization you prefer and also include the audit capability in the same `configuration.xml`.
+To achieve this functionality, simply enable the form of authorization you prefer and also include the audit capability in the same `fcrepo-config.xml`.
 
 Audit capability can be packaged with any of the authentication options.
 
