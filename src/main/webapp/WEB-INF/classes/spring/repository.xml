@@ -5,5 +5,5 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Master context for fcrepo4. -->
-    <import resource="${fcrepo.spring.configuration:classpath:/spring/fcrepo4-config.xml}"/>
+    <import resource="${fcrepo.spring.configuration:classpath:/spring/fcrepo-config.xml}"/>
 </beans>
