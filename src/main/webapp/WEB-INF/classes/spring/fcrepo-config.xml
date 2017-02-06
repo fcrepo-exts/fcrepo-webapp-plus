@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Master context for fcrepo4. -->
+
+    <!-- Context that supports the actual ModeShape JCR itself -->
+    <context:property-placeholder/>
+    <context:annotation-config/>
+    <context:component-scan base-package="org.fcrepo"/>
+
+
+        <!-- **********************************
+                        MODESHAPE configuration
+                 ********************************** -->
+        
+    <!-- Authentication Not Enabled -->
+    <bean name="modeshapeRepofactory"
+        class="org.fcrepo.kernel.modeshape.spring.ModeShapeRepositoryFactoryBean"
+        p:repositoryConfiguration="${fcrepo.modeshape.configuration}" />
+
+    <!-- To use Authentication:
+      1. Comment out the above bean definition.
+      2. Uncomment this bean definition.
+      3. Uncomment one of the provider definitions (WebAC)
+      4. Uncomment the "authenticationProvider" bean definition below.
+      5. Remember to set the system property fcrepo.modeshape.configuration to the location of your repository.json
+    -->
+    <!--
+    <bean name="modeshapeRepofactory"
+        class="org.fcrepo.kernel.modeshape.spring.ModeShapeRepositoryFactoryBean"
+        p:repositoryConfiguration="${fcrepo.modeshape.configuration}"
+        depends-on="authenticationProvider"/>
+    -->    
+
+    <!-- **************************
+              Authentication
+         ************************** -->
+      
+    <!-- Optional PrincipalProvider that will inspect the request header, "some-header", for user role values -->
+    <bean name="headerProvider" class="org.fcrepo.auth.common.HttpHeaderPrincipalProvider">
+        <property name="headerName" value="some-header"/>
+        <property name="separator" value=","/>
+    </bean>
+    
+    <!-- Optional PrincipalProvider that will use container configured roles as principals -->
+    <bean name="containerRolesProvider" class="org.fcrepo.auth.common.ContainerRolesPrincipalProvider">
+      <property name="roleNames">
+        <util:set set-class="java.util.HashSet">
+          <value>tomcat-role-1</value>
+          <value>tomcat-role-2</value>
+        </util:set>
+      </property>
+    </bean>
+
+    <!-- delegatedPrincipleProvider allows a single user to be passed in the header "On-Behalf-Of",
+           this is to be used as the actor making the request when authenticating.
+           NOTE: Only users with the role fedoraAdmin can delegate to another user. 
+           NOTE: Only supported in WebAC authentication -->
+    <bean name="delegatedPrincipalProvider" class="org.fcrepo.auth.common.DelegateHeaderPrincipalProvider"/>
+    
+
+    <!-- Defines a set of users from both the headerProvider and delegatedPrincipleProvider -->
+    <util:set id="principalProviderSet">
+      <ref bean="headerProvider"/>
+      <ref bean="containerRolesProvider"/>
+      <ref bean="delegatedPrincipalProvider"/>
+    </util:set>
+
+    <!-- **** WebAC Authentication **** -->
+      <!--
+      <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
+      <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
+      -->
+    
+    <!-- **** Roles Based Authentication **** -->
+    <!--
+      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
+      <bean name="fad" class="org.fcrepo.auth.roles.basic.BasicRolesAuthorizationDelegate"/>
+    -->
+      
+    <!-- **** XACML Authentication **** -->
+    <!--
+      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
+      <bean class="org.fcrepo.auth.xacml.XACMLWorkspaceInitializer" init-method="initTest">
+        <constructor-arg value="WEB-INF/classes/policies"/>
+        <constructor-arg value="WEB-INF/classes/policies/GlobalRolesPolicySet.xml"/>
+      </bean>
+   -->
+    
+
+    <!-- Creates a servlet container authentication provider with the supplied FAD and set
+         of principles providers.
+    
+         *** To use authorization, see steps on line 32 of this file. ***
+    -->
+    <!--
+    <bean name="authenticationProvider" class="org.fcrepo.auth.common.ServletContainerAuthenticationProvider">
+      <property name="fad" ref="fad"/>
+      <property name="principalProviders" ref="principalProviderSet"/>
+    </bean>
+    -->
+      
+    <!-- **************************
+            END Authentication 
+         ************************** -->
+    
+
+    <!-- **************************
+                 AUDIT
+         publish audit events to JMS
+         You also need to uncomment the fcrepo-audit dependency in the pom.xml
+         ************************** -->
+    <!--
+    <bean class="org.fcrepo.audit.InternalAuditor"/>
+    -->
+      
+    <!-- **************************
+              PID Minter
+          Select one of the following.
+         ************************** -->
+    
+    <!-- Mints PIDs using random UUIDs and generates additional hierarchy -->
+    <bean class="org.fcrepo.mint.UUIDPathMinter"
+        c:length="${fcrepo.uuid.path.length:2}"
+        c:count="${fcrepo.uuid.path.count:4}"/>
+
+    <!-- Mints Pids with no additional hierarchy. 
+         Choose this if you use the AppleTreeConverter 
+          in the translation chain below. -->
+    <!--
+    <bean class="org.fcrepo.mint.UUIDPidMinter" />
+    -->
+
+    <!-- Mints PIDs using external REST service
+    <bean class="org.fcrepo.mint.HttpPidMinter"
+        c:url="http://localhost/my/minter" c:method="POST"
+        c:username="${fcrepo.minter.username:minterUser}"
+        c:password="${fcrepo.minter.password:minterPass}"
+        c:regex="" c:xpath="/response/ids/value"/>
+    -->
+    
+    
+    <!-- Identifier translation chain -->
+    <util:list id="translationChain" value-type="org.fcrepo.kernel.api.identifiers.InternalIdentifierConverter">
+      <!-- Use AppleTreeConverter to hide Fedora's Pairtree hierarchy from public view 
+           https://gitlab.amherst.edu/acdc/acrepo-apple-trees.
+           NOTE: It is recommended to use the UUIDPidMinter above with this converter.
+      -->
+      <!--
+        <bean class="edu.amherst.acdc.orchard.AppleTreeConverter"/>
+      -->
+        <bean class="org.fcrepo.kernel.modeshape.identifiers.HashConverter"/>
+        <bean class="org.fcrepo.kernel.modeshape.identifiers.NamespaceConverter"/>
+    </util:list>
+
+
+    <!-- *************************************
+               JMS/Eventing Configuration
+         ************************************* -->
+    
+    <!-- publishes events from the internal bus to a JMS Topic or Queue.
+         "constructor-arg" for both is topic/queue name. -->
+    
+    <!--   JMS Topic -->
+    <bean class="org.fcrepo.jms.JMSTopicPublisher">
+      <constructor-arg value="fedora"/>
+    </bean>
+    
+    <!-- JMS Queue -->
+    <!--
+    <bean class="org.fcrepo.jms.JMSQueuePublisher">
+      <constructor-arg value="fedora"/>
+    </bean>
+    -->
+    
+    <!-- ActiveMQ connection -->  
+    <bean id="connectionFactory"
+        class="org.apache.activemq.ActiveMQConnectionFactory" depends-on="jmsBroker"
+        p:brokerURL="vm://${fcrepo.jms.host:localhost}:${fcrepo.dynamic.jms.port:61616}?create=false"/>
+
+    <!-- JMS Broker configuration -->
+    <bean name="jmsBroker" class="org.apache.activemq.xbean.BrokerFactoryBean"
+      p:config="${fcrepo.activemq.configuration:classpath:/config/activemq.xml}" p:start="true"/>
+
+
+    <!-- translates events into JMS header-only format-->
+    <bean class="org.fcrepo.jms.DefaultMessageFactory"/>
+
+    <!-- listener that moves JCR Events to the Fedora internal event bus -->
+    <bean class="org.fcrepo.kernel.modeshape.observer.SimpleObserver"/>
+
+    <!-- used by bean above to filter which events get put on the bus -->
+    <bean name="fedoraEventFilter" class="org.fcrepo.kernel.modeshape.observer.DefaultFilter"/>
+
+    <!-- used by observer bean to map JCR events into Fedora events -->
+    <bean name="fedoraEventMapper" class="org.fcrepo.kernel.modeshape.observer.eventmappings.AllNodeEventsOneEvent"/>
+
+    <!-- Fedora's lightweight internal event bus. Currently memory-resident.-->
+    <bean name="fedoraInternalEventBus" class="com.google.common.eventbus.EventBus"/>
+
+
+    <!-- ***********************************
+            Internal system configuration
+         *********************************** -->
+    <task:scheduler id="taskScheduler" />
+    <task:executor id="taskExecutor" pool-size="1" />
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler" />
+
+
+    <!-- Start the Modeshape JCR -->
+    <bean class="org.modeshape.jcr.ModeShapeEngine" init-method="start"/>
+
+    <!-- For the time being, load annotation config here too -->
+    <bean class="org.fcrepo.metrics.MetricsConfig"/>
+
+    <bean id="connectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" />
+
+    <!-- Generates HTTP Sessions -->
+    <bean class="org.fcrepo.http.commons.session.SessionFactory"/>
+    
+</beans>
+
