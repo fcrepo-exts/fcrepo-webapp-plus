@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.7.3</version>
+    <version>4.7.4-SNAPSHOT</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.7.3</version>
+  <version>4.7.4-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -42,27 +42,27 @@
     <developerConnection>scm:git:git@github.com:fcrepo4-exts/${project_name}.git
     </developerConnection>
     <url>https://github.com/fcrepo4-exts/${project_name}</url>
-    <tag>fcrepo-webapp-plus-4.7.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.7.3</version>
+      <version>4.7.4-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.7.3</version>
+      <version>4.7.4-SNAPSHOT</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-mint</artifactId>
-      <version>4.7.3</version>
+      <version>4.7.4-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -83,14 +83,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>4.7.3</version>
+      <version>4.7.4-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>4.7.3</version>
+      <version>4.7.4-SNAPSHOT</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -297,7 +297,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-audit</artifactId>
-          <version>4.7.3</version>
+          <version>4.7.4-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <build>
@@ -437,7 +437,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-webac</artifactId>
-          <version>4.7.3</version>
+          <version>4.7.4-SNAPSHOT</version>
         </dependency>
       </dependencies>
       <build>
