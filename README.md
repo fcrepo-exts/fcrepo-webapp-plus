@@ -10,111 +10,76 @@ integration test exists to perform a basic deployment test only and may be usefu
 identifying syntax errors in configuration file updates or third party library version
 incompatibilities.
 
-# Profiles
+# Authentication Packages
+
+Basic Authentication is configured for both profiles at this time.  To choose a different
+method, update the web.xml deployment descriptor for the webapp in question, being aware
+that this may break the single integration test.
 
 ## Default Maven Build
-The default maven build profile does not include audit or authorization support.
-
+The default maven build profile is Audit capability with WebAC
 ```
 mvn install
 ```
+
+## Role-Based Access Control Lists
+
+This maven build profile bundles the Role-Based access control module to the fcrepo webapp. The configuration files are found in src/rbacl.
+```
+mvn install -P rbacl
+```
+
 ## Web Access Control
 
 This maven build profile bundles WebAC authorization module to the fcrepo webapp. The configuration files are found in src/webac.
-
 ```
 mvn install -P webac
 ```
 
 There is also a [Quick Start with WebAC guide](https://wiki.duraspace.org/display/FEDORA4x/Quick+Start+with+WebAC) on the Fedora 4 wiki that guides you through the basic steps of creating and updating WebAC access control lists, and protecting resources with those ACLs.
 
-# Configuring for your use
-
-The fcrepo-webapp-plus includes a single spring XML configuration file `fcrepo-config.xml`, it is suggested to make a copy of this file and use the system property `fcrepo.spring.configuration` to point to your customized version.
-
-`JAVA_OPTS="${JAVA_OPTS} -Dfcrepo.spring.configuration=file:/path/to/fcrepo-config.xml"`
-
-You must also specify the `fcrepo.modeshape.configuration` system property to point to a valid respository configuration file. You can find several example [repository.json files here](https://github.com/fcrepo4/fcrepo4/tree/master/fcrepo-configs/src/main/resources/config)
-
-# Authentication Packages
-
-Basic Authentication is configured for the **webac** profile only at this time.  To choose a different
-method, update the same web.xml deployment descriptor for the webapp in question, being aware
-that this may break the single integration test.
-
-You must also configure the authorization package as described below.
-
-## Role-Based Access Control Lists
-
-####This has been deprecated, please use WebAC Access Control.
-
-Ensure you have the basic authentication enabled in the web.xml. 
-
-Then comment out the WebAC beans and un-comment the RbAcl beans in your `fcrepo-config.xml` file.
-
-```
-    <!-- **** WebAC Authentication **** -->
-    <!--
-      <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
-      <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
-    -->
-    <!-- **** Roles Based Authentication **** -->
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean name="fad" class="org.fcrepo.auth.roles.basic.BasicRolesAuthorizationDelegate"/>
-
-```
-
-You will also need to include/un-comment the `fcrepo-module-auth-rbacl` artifact dependency in the pom.xml.
-
 ## XACML-based Access Control
-
-####This has been deprecated, please use WebAC Access Control.
-
-Ensure you have the basic authentication enabled in the web.xml. 
+An alternative maven build profile, these configuration files are found in src/xacml.
 
 Default policy sets and root policy are extracted into target/policies for the integration
 tests, but when you create a custom war file, you should update the repo.xml Spring
 configuration to point to your own policy directories.
 
-You must also comment out the WebAC beans and un-comment the XACML ones.
-
 ```
-    <!-- **** WebAC Authentication **** -->
-    <!--
-      <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
-      <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
-    -->
-    <!-- **** XACML Authentication **** -->
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean class="org.fcrepo.auth.xacml.XACMLWorkspaceInitializer" init-method="initTest">
-        <constructor-arg value="WEB-INF/classes/policies"/>
-        <constructor-arg value="WEB-INF/classes/policies/GlobalRolesPolicySet.xml"/>
-      </bean>
-
+mvn install -P xacml
 ```
-
-You will also need to include/un-comment the `fcrepo-module-auth-xacml` artifact dependency in the pom.xml.
 
 # Audit Capability Package
-The [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) capability is included in fcrepo-webapp-plus by default.
-
-You must enable it (un-comment it) in your `fcrepo-config.xml` file.
+This profile builds webapp that includes the [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) module that provides internal auditing capability.
 
 ```
-    <!-- **************************
-                 AUDIT
-         publish audit events to JMS
-         ************************** -->
-    <!--
-    <bean class="org.fcrepo.audit.InternalAuditor"/>
-    -->
+mvn install -P audit
 ```
+
+
 
 ## Audit capability with Authentication
+Audit capability can be packaged with either of the authentication options by using the ```audit``` profile in conjunction with ```rbacl``` or ```xacml``` profiles.
 
-To achieve this functionality, simply enable the form of authorization you prefer and also include the audit capability in the same `fcrepo-config.xml`.
+#### Audit capability with RBACL
 
-Audit capability can be packaged with any of the authentication options.
+```
+mvn install -P audit,rbacl
+```
+
+
+#### Audit capability with XACML
+
+```
+mvn install -P audit,xacml
+```
+
+
+#### Audit capability with WebAC
+
+```
+mvn install -P audit,webac
+```
 
 
 ## Maintainers
