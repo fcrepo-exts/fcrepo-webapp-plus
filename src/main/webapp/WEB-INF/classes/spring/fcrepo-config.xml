@@ -83,21 +83,6 @@
       <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
       -->
     
-    <!-- **** Roles Based Authentication **** -->
-    <!--
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean name="fad" class="org.fcrepo.auth.roles.basic.BasicRolesAuthorizationDelegate"/>
-    -->
-      
-    <!-- **** XACML Authentication **** -->
-    <!--
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean class="org.fcrepo.auth.xacml.XACMLWorkspaceInitializer" init-method="initTest">
-        <constructor-arg value="WEB-INF/classes/policies"/>
-        <constructor-arg value="WEB-INF/classes/policies/GlobalRolesPolicySet.xml"/>
-      </bean>
-   -->
-    
 
     <!-- Creates a servlet container authentication provider with the supplied FAD and set
          of principles providers.

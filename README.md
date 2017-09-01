@@ -44,56 +44,6 @@ that this may break the single integration test.
 
 You must also configure the authorization package as described below.
 
-## Role-Based Access Control Lists
-
-####This has been deprecated, please use WebAC Access Control.
-
-Ensure you have the basic authentication enabled in the web.xml. 
-
-Then comment out the WebAC beans and un-comment the RbAcl beans in your `fcrepo-config.xml` file.
-
-```
-    <!-- **** WebAC Authentication **** -->
-    <!--
-      <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
-      <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
-    -->
-    <!-- **** Roles Based Authentication **** -->
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean name="fad" class="org.fcrepo.auth.roles.basic.BasicRolesAuthorizationDelegate"/>
-
-```
-
-You will also need to include/un-comment the `fcrepo-module-auth-rbacl` artifact dependency in the pom.xml.
-
-## XACML-based Access Control
-
-####This has been deprecated, please use WebAC Access Control.
-
-Ensure you have the basic authentication enabled in the web.xml. 
-
-Default policy sets and root policy are extracted into target/policies for the integration
-tests, but when you create a custom war file, you should update the repo.xml Spring
-configuration to point to your own policy directories.
-
-You must also comment out the WebAC beans and un-comment the XACML ones.
-
-```
-    <!-- **** WebAC Authentication **** -->
-    <!--
-      <bean name="fad" class="org.fcrepo.auth.webac.WebACAuthorizationDelegate"/>
-      <bean name="accessRolesProvider" class="org.fcrepo.auth.webac.WebACRolesProvider"/>
-    -->
-    <!-- **** XACML Authentication **** -->
-      <bean name="accessRolesResources" class="org.fcrepo.auth.roles.common.AccessRolesResources"/>
-      <bean class="org.fcrepo.auth.xacml.XACMLWorkspaceInitializer" init-method="initTest">
-        <constructor-arg value="WEB-INF/classes/policies"/>
-        <constructor-arg value="WEB-INF/classes/policies/GlobalRolesPolicySet.xml"/>
-      </bean>
-
-```
-
-You will also need to include/un-comment the `fcrepo-module-auth-xacml` artifact dependency in the pom.xml.
 
 # Audit Capability Package
 The [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) capability is included in fcrepo-webapp-plus by default.
