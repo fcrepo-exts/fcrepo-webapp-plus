@@ -3,10 +3,10 @@
   <parent>
     <groupId>org.fcrepo</groupId>
     <artifactId>fcrepo</artifactId>
-    <version>4.7.5-SNAPSHOT</version>
+    <version>4.7.5</version>
   </parent>
   <artifactId>fcrepo-webapp-plus</artifactId>
-  <version>4.7.5-SNAPSHOT</version>
+  <version>4.7.5</version>
   <packaging>war</packaging>
   <name>fcrepo-webapp-plus</name>
   <description>Fedora Repository webapp plus additional modules</description>
@@ -44,27 +44,27 @@
     <developerConnection>scm:git:git@github.com:fcrepo4-exts/${project_name}.git
     </developerConnection>
     <url>https://github.com/fcrepo4-exts/${project_name}</url>
-    <tag>HEAD</tag>
+    <tag>fcrepo-webapp-plus-4.7.5</tag>
   </scm>
 
   <dependencies>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.7.5-SNAPSHOT</version>
+      <version>4.7.5</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-webapp</artifactId>
-      <version>4.7.5-SNAPSHOT</version>
+      <version>4.7.5</version>
       <type>jar</type>
       <classifier>classes</classifier>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-mint</artifactId>
-      <version>4.7.5-SNAPSHOT</version>
+      <version>4.7.5</version>
     </dependency>
 
     <dependency>
@@ -108,14 +108,14 @@
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-commons</artifactId>
-      <version>4.7.5-SNAPSHOT</version>
+      <version>4.7.5</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.fcrepo</groupId>
       <artifactId>fcrepo-http-api</artifactId>
-      <version>4.7.5-SNAPSHOT</version>
+      <version>4.7.5</version>
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
@@ -322,7 +322,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-audit</artifactId>
-          <version>4.7.5-SNAPSHOT</version>
+          <version>4.7.5</version>
         </dependency>
       </dependencies>
       <build>
@@ -462,7 +462,7 @@
         <dependency>
           <groupId>org.fcrepo</groupId>
           <artifactId>fcrepo-module-auth-webac</artifactId>
-          <version>4.7.5-SNAPSHOT</version>
+          <version>4.7.5</version>
         </dependency>
       </dependencies>
       <build>
