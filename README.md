@@ -2,10 +2,10 @@ fcrepo-webapp-plus
 ==================
 
 
-[![Build Status](https://travis-ci.org/fcrepo4-exts/fcrepo-webapp-plus.png?branch=master)](https://travis-ci.org/fcrepo4-exts/fcrepo-webapp-plus)
+[![Build Status](https://travis-ci.org/fcrepo-exts/fcrepo-webapp-plus.png?branch=master)](https://travis-ci.org/fcrepo-exts/fcrepo-webapp-plus)
 
-Fcrepo4 webapp plus optional fcrepo dependencies.  This project builds a custom-configured
-fcrepo4 webapp war file that includes extra dependencies and configuration options.  An
+Fcrepo webapp plus optional fcrepo dependencies.  This project builds a custom-configured
+fcrepo webapp war file that includes extra dependencies and configuration options.  An
 integration test exists to perform a basic deployment test only and may be useful just for
 identifying syntax errors in configuration file updates or third party library version
 incompatibilities.
@@ -34,7 +34,7 @@ The fcrepo-webapp-plus includes a single spring XML configuration file `fcrepo-c
 
 `JAVA_OPTS="${JAVA_OPTS} -Dfcrepo.spring.configuration=file:/path/to/fcrepo-config.xml"`
 
-You must also specify the `fcrepo.modeshape.configuration` system property to point to a valid respository configuration file. You can find several example [repository.json files here](https://github.com/fcrepo4/fcrepo4/tree/master/fcrepo-configs/src/main/resources/config)
+You must also specify the `fcrepo.modeshape.configuration` system property to point to a valid respository configuration file. You can find several example [repository.json files here](https://github.com/fcrepo/fcrepo/tree/master/fcrepo-configs/src/main/resources/config)
 
 # Authentication Packages
 
@@ -46,7 +46,7 @@ You must also configure the authorization package as described below.
 
 
 # Audit Capability Package
-The [fcrepo-audit](https://github.com/fcrepo4-exts/fcrepo-audit) capability is included in fcrepo-webapp-plus by default.
+The [fcrepo-audit](https://github.com/fcrepo-exts/fcrepo-audit) capability is included in fcrepo-webapp-plus by default.
 
 You must enable it (un-comment it) in your `fcrepo-config.xml` file.
 
